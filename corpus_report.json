@@ -1,0 +1,622 @@
+{
+  "files": {
+    "grammar": {
+      "lines": 420,
+      "passages": 420,
+      "unique": 420,
+      "multi_clause": 0
+    },
+    "opposites": {
+      "lines": 420,
+      "passages": 420,
+      "unique": 420,
+      "multi_clause": 0
+    },
+    "everyday_knowledge": {
+      "lines": 252,
+      "passages": 252,
+      "unique": 252,
+      "multi_clause": 0
+    },
+    "categories_and_analogies": {
+      "lines": 329,
+      "passages": 329,
+      "unique": 329,
+      "multi_clause": 263
+    }
+  },
+  "reserved_lines": {
+    "grammar": [
+      {
+        "line": "one bird is bright .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is calm .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is cold .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is dark .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is dry .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is fast .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is heavy .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is light .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is loud .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is quiet .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is round .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is slow .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is small .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is soft .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is warm .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "one bird is wet .",
+        "case_ids": [
+          "lang_25"
+        ]
+      },
+      {
+        "line": "yesterday she walked .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the hospital .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the market .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the office .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the school .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the station .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "yesterday she walked to the store .",
+        "case_ids": [
+          "lang_27"
+        ]
+      },
+      {
+        "line": "the dogs are bright .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are calm .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are cold .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are dark .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are dry .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are fast .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are heavy .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are light .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are loud .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are quiet .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are round .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are slow .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are small .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are soft .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are warm .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs are wet .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were bright yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were calm yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were cold yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were dark yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were dry yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were fast yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were heavy yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were light yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were loud yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were quiet yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were round yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were slow yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were small yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were soft yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were warm yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      },
+      {
+        "line": "the dogs were wet yesterday .",
+        "case_ids": [
+          "lang_26"
+        ]
+      }
+    ],
+    "opposites": [
+      {
+        "line": "the opposite of empty is full .",
+        "case_ids": [
+          "lang_29"
+        ]
+      },
+      {
+        "line": "the opposite of hot is cold .",
+        "case_ids": [
+          "lang_28"
+        ]
+      },
+      {
+        "line": "the opposite of noisy is quiet .",
+        "case_ids": [
+          "lang_30"
+        ]
+      }
+    ],
+    "categories_and_analogies": [
+      {
+        "line": "a puppy grows into a dog .a kitten grows into a cat .",
+        "case_ids": [
+          "lang_47"
+        ]
+      },
+      {
+        "line": "a carrot is a vegetable .an apple is a fruit .",
+        "case_ids": [
+          "lang_48"
+        ]
+      },
+      {
+        "line": "a robin is a bird .a salmon is a fish .",
+        "case_ids": [
+          "lang_46"
+        ]
+      }
+    ]
+  },
+  "reserved_line_count": 61,
+  "total_passages": 1421,
+  "unique_passages": 1418,
+  "distinct_token_types_added_by_corpus_files": 200,
+  "leaks": [],
+  "coverage": {
+    "lang_25": {
+      "category": "grammar",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_26": {
+      "category": "grammar",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_27": {
+      "category": "grammar",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_28": {
+      "category": "opposites",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_29": {
+      "category": "opposites",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_30": {
+      "category": "opposites",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_31": {
+      "category": "negation",
+      "missing_after_extension": [
+        "blue",
+        "box",
+        "green",
+        "red",
+        "yellow"
+      ],
+      "covered": false
+    },
+    "lang_32": {
+      "category": "negation",
+      "missing_after_extension": [
+        "ava",
+        "bought",
+        "bread",
+        "buy",
+        "did",
+        "milk",
+        "rice",
+        "tea"
+      ],
+      "covered": false
+    },
+    "lang_33": {
+      "category": "negation",
+      "missing_after_extension": [
+        "closed",
+        "door",
+        "missing",
+        "open",
+        "wide"
+      ],
+      "covered": false
+    },
+    "lang_34": {
+      "category": "reference",
+      "missing_after_extension": [
+        "book",
+        "lent",
+        "leo",
+        "maya",
+        "nora",
+        "omar",
+        "thanked"
+      ],
+      "covered": false
+    },
+    "lang_35": {
+      "category": "reference",
+      "missing_after_extension": [
+        "ella",
+        "finn",
+        "gave",
+        "noah",
+        "pencil",
+        "received",
+        "sara",
+        "who"
+      ],
+      "covered": false
+    },
+    "lang_36": {
+      "category": "reference",
+      "missing_after_extension": [
+        "answered",
+        "call",
+        "called",
+        "emma",
+        "luca",
+        "nina",
+        "omar"
+      ],
+      "covered": false
+    },
+    "lang_37": {
+      "category": "sequence",
+      "missing_after_extension": [
+        "action",
+        "buy",
+        "cup",
+        "fill",
+        "first",
+        "last",
+        "wash"
+      ],
+      "covered": false
+    },
+    "lang_38": {
+      "category": "sequence",
+      "missing_after_extension": [
+        "after",
+        "breakfast",
+        "dinner",
+        "earlier",
+        "happens",
+        "lunch",
+        "meal",
+        "supper"
+      ],
+      "covered": false
+    },
+    "lang_39": {
+      "category": "sequence",
+      "missing_after_extension": [
+        "arrived",
+        "before",
+        "later",
+        "taxi"
+      ],
+      "covered": false
+    },
+    "lang_40": {
+      "category": "spatial_relations",
+      "missing_after_extension": [
+        "bag",
+        "book",
+        "contains",
+        "desk",
+        "inside",
+        "shelf"
+      ],
+      "covered": false
+    },
+    "lang_41": {
+      "category": "spatial_relations",
+      "missing_after_extension": [
+        "above",
+        "below",
+        "beside",
+        "desk",
+        "inside"
+      ],
+      "covered": false
+    },
+    "lang_42": {
+      "category": "spatial_relations",
+      "missing_after_extension": [
+        "ball",
+        "box",
+        "left",
+        "north",
+        "right",
+        "south"
+      ],
+      "covered": false
+    },
+    "lang_43": {
+      "category": "everyday_knowledge",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_44": {
+      "category": "everyday_knowledge",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_45": {
+      "category": "everyday_knowledge",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_46": {
+      "category": "categories_and_analogies",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_47": {
+      "category": "categories_and_analogies",
+      "missing_after_extension": [],
+      "covered": true
+    },
+    "lang_48": {
+      "category": "categories_and_analogies",
+      "missing_after_extension": [],
+      "covered": true
+    }
+  },
+  "taught_cases_fully_covered": 12,
+  "taught_cases": 12,
+  "untaught_cases_fully_covered": 0,
+  "untaught_cases": 12,
+  "starter_vocabulary_known": 0
+}
