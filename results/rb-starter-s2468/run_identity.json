@@ -1,0 +1,12 @@
+{
+  "experiment": "rb-starter-s2468",
+  "llm_run": "20260918T004434_914811Z",
+  "settings": {
+    "corpus": "classroom",
+    "corpus_folder": "corpus_starter",
+    "steps": 3000,
+    "learning_rate": 0.001,
+    "seed": 2468
+  },
+  "executed_notebook": "rb-starter-2468.ipynb"
+}

@@ -1,0 +1,12 @@
+{
+  "experiment": "rb-expanded-s2468",
+  "llm_run": "20260918T004445_162078Z",
+  "settings": {
+    "corpus": "classroom",
+    "corpus_folder": "corpus",
+    "steps": 3000,
+    "learning_rate": 0.001,
+    "seed": 2468
+  },
+  "executed_notebook": "rb-expanded-2468.ipynb"
+}

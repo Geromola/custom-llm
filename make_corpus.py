@@ -36,7 +36,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from run_evals import load_suite, matching_cases, word_tokens
+from run_evals import load_suite, matching_cases, reject_eval_leakage, word_tokens
 
 ROOT = Path(__file__).resolve().parent
 CORPUS = ROOT / "corpus"
@@ -222,6 +222,25 @@ CAP = 420
 RESERVED: dict[str, list[dict]] = {}
 
 
+def order_lines(lines: list[str], suite) -> list[str]:
+    """Order the lines so no eval prompt appears ACROSS a line break.
+
+    The notebook checks an imported file as one continuous stream, not line by line, so
+    "a carrot is a vegetable ." followed by "an apple is a fruit ." reproduces a test
+    prompt even though neither line does on its own. This greedy ordering keeps every
+    window of three consecutive lines clean; `main` then re-checks the whole file.
+    """
+    remaining, ordered = list(lines), []
+    while remaining:
+        for index, candidate in enumerate(remaining):
+            if not matching_cases(" ".join(ordered[-2:] + [candidate]), suite):
+                ordered.append(remaining.pop(index))
+                break
+        else:
+            raise ValueError("no line can follow without reproducing an eval prompt")
+    return ordered
+
+
 def build(suite) -> dict[str, list[str]]:
     """Generate, then withhold any line that reproduces an eval prompt.
 
@@ -253,7 +272,7 @@ def build(suite) -> dict[str, list[str]]:
             for pattern in order:
                 if groups[pattern] and len(kept) < CAP:
                     kept.append(groups[pattern].pop())
-        built[name] = sorted(kept)
+        built[name] = order_lines(sorted(kept), suite)
     return built
 
 
@@ -273,6 +292,9 @@ def report(built: dict[str, list[str]], suite) -> dict:
     leaks, passages, per_file = [], [], {}
     for name, lines in built.items():
         text = "\n".join(lines)
+        whole_file = matching_cases(text, suite)
+        if whole_file:
+            leaks.append({"file": name, "passage": "<whole-file stream>", "cases": whole_file})
         got = normalized_passages(text)
         per_file[name] = {"lines": len(lines), "passages": len(got), "unique": len(set(got)),
                           "multi_clause": sum(1 for p in got if p.count(" . ") >= 1)}
@@ -343,6 +365,7 @@ def main() -> None:
     for name, lines in built.items():
         text = "\n".join(lines) + "\n"
         target = (SOURCES if name == AS_PDF else CORPUS) / f"{name}.md"
+        reject_eval_leakage(text, suite, str(target))   # the notebook's own file-level gate
         target.write_text(text, encoding="utf-8")
         print("wrote", target.relative_to(ROOT))
     (ROOT / "corpus_report.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

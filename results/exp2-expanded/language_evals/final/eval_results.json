@@ -1,0 +1,1449 @@
+[
+  {
+    "id": "lang_01",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the customer explains the",
+    "choices": [
+      "service",
+      "traffic",
+      "juice",
+      "code"
+    ],
+    "expected": "service",
+    "predicted_choice": "service",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "service": 0.3248732089996338,
+      "traffic": 0.00013141275849193335,
+      "juice": 6.276595740928315e-06,
+      "code": 0.0003767726884689182
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "purchase in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs customer with service and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2026
+  },
+  {
+    "id": "lang_02",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the merchandise explains the",
+    "choices": [
+      "patient",
+      "interest",
+      "lesson",
+      "quality"
+    ],
+    "expected": "quality",
+    "predicted_choice": "quality",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "patient": 1.2303436051297467e-05,
+      "interest": 0.0005852041067555547,
+      "lesson": 0.00012526343925856054,
+      "quality": 0.28272107243537903
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "price in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs merchandise with quality and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2027
+  },
+  {
+    "id": "lang_03",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the mortgage explains the",
+    "choices": [
+      "route",
+      "security",
+      "payment",
+      "harvest"
+    ],
+    "expected": "payment",
+    "predicted_choice": "payment",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "route": 0.0007701889844611287,
+      "security": 0.00044475862523540854,
+      "payment": 0.2086077183485031,
+      "harvest": 0.0003340906114317477
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "interest in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs mortgage with payment and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2028
+  },
+  {
+    "id": "lang_04",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the mango explains the",
+    "choices": [
+      "risk",
+      "juice",
+      "support",
+      "code"
+    ],
+    "expected": "juice",
+    "predicted_choice": "juice",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "risk": 0.0006179481861181557,
+      "juice": 0.2323271632194519,
+      "support": 1.118337968364358e-05,
+      "code": 0.000666032254230231
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "taste in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs mango with juice and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2029
+  },
+  {
+    "id": "lang_05",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the bicycle explains the",
+    "choices": [
+      "journey",
+      "treatment",
+      "price",
+      "learning"
+    ],
+    "expected": "journey",
+    "predicted_choice": "journey",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "journey": 0.22252777218818665,
+      "treatment": 0.000546469702385366,
+      "price": 0.00016406641225330532,
+      "learning": 0.00019097307813353837
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "journey in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs bicycle with journey and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2030
+  },
+  {
+    "id": "lang_06",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the application explains the",
+    "choices": [
+      "taste",
+      "student",
+      "payment",
+      "security"
+    ],
+    "expected": "security",
+    "predicted_choice": "security",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "taste": 0.0006288932636380196,
+      "student": 0.00024521051091142,
+      "payment": 0.0005100566195324063,
+      "security": 0.21921852231025696
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "code in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs application with security and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2031
+  },
+  {
+    "id": "lang_07",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the surgeon explains the",
+    "choices": [
+      "fruit",
+      "traffic",
+      "patient",
+      "delivery"
+    ],
+    "expected": "patient",
+    "predicted_choice": "patient",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "fruit": 0.00020775364828296006,
+      "traffic": 0.00044782934128306806,
+      "patient": 0.23093868792057037,
+      "delivery": 6.037122602720046e-06
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "health in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs surgeon with patient and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2032
+  },
+  {
+    "id": "lang_08",
+    "group": "starter_patterns",
+    "category": "domain_context",
+    "prompt": "the report about the tutor explains the",
+    "choices": [
+      "journey",
+      "lesson",
+      "interest",
+      "design"
+    ],
+    "expected": "lesson",
+    "predicted_choice": "lesson",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "journey": 0.0004037258040625602,
+      "lesson": 0.2632649540901184,
+      "interest": 9.642084478400648e-06,
+      "design": 9.43621780606918e-05
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "course in detail .",
+    "prompt_truncated": false,
+    "reason": "The starter repeatedly pairs tutor with lesson and related domain words. The other choices belong to different domains.",
+    "stage": "final",
+    "sample_seed": 2033
+  },
+  {
+    "id": "lang_09",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the customer and the service at the",
+    "choices": [
+      "store",
+      "market",
+      "bank",
+      "kitchen"
+    ],
+    "expected": "store",
+    "predicted_choice": "store",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "store": 0.9528275728225708,
+      "market": 0.019019121304154396,
+      "bank": 0.00012436627002898604,
+      "kitchen": 0.00010389416274847463
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "store .",
+    "prompt_truncated": false,
+    "reason": "The starter associates customer and service with the store. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2034
+  },
+  {
+    "id": "lang_10",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the merchandise and the quality at the",
+    "choices": [
+      "bank",
+      "kitchen",
+      "station",
+      "market"
+    ],
+    "expected": "market",
+    "predicted_choice": "market",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "bank": 0.009051220491528511,
+      "kitchen": 0.000656988238915801,
+      "station": 0.0036061923019587994,
+      "market": 0.9528664350509644
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "market .",
+    "prompt_truncated": false,
+    "reason": "The starter associates merchandise and quality with the market. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2035
+  },
+  {
+    "id": "lang_11",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the mortgage and the payment at the",
+    "choices": [
+      "station",
+      "office",
+      "bank",
+      "kitchen"
+    ],
+    "expected": "bank",
+    "predicted_choice": "bank",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "station": 0.0025898260064423084,
+      "office": 0.00463666720315814,
+      "bank": 0.9672842025756836,
+      "kitchen": 0.0038067924324423075
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "bank .",
+    "prompt_truncated": false,
+    "reason": "The starter associates mortgage and payment with the bank. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2036
+  },
+  {
+    "id": "lang_12",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the mango and the juice at the",
+    "choices": [
+      "hospital",
+      "kitchen",
+      "station",
+      "office"
+    ],
+    "expected": "kitchen",
+    "predicted_choice": "kitchen",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "hospital": 0.003316072979941964,
+      "kitchen": 0.9620665907859802,
+      "station": 0.0033156857825815678,
+      "office": 0.0030839021783322096
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "kitchen .",
+    "prompt_truncated": false,
+    "reason": "The starter associates mango and juice with the kitchen. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2037
+  },
+  {
+    "id": "lang_13",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the bicycle and the journey at the",
+    "choices": [
+      "station",
+      "office",
+      "hospital",
+      "school"
+    ],
+    "expected": "station",
+    "predicted_choice": "station",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "station": 0.9518756866455078,
+      "office": 3.0907089239917696e-05,
+      "hospital": 0.0035742924083024263,
+      "school": 0.006655887700617313
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "morning .",
+    "prompt_truncated": false,
+    "reason": "The starter associates bicycle and journey with the station. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2038
+  },
+  {
+    "id": "lang_14",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the application and the security at the",
+    "choices": [
+      "store",
+      "market",
+      "bank",
+      "office"
+    ],
+    "expected": "office",
+    "predicted_choice": "office",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "store": 0.003024279372766614,
+      "market": 0.002103169448673725,
+      "bank": 0.0024066492915153503,
+      "office": 0.9604900479316711
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "office .",
+    "prompt_truncated": false,
+    "reason": "The starter associates application and security with the office. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2039
+  },
+  {
+    "id": "lang_15",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the surgeon and the patient at the",
+    "choices": [
+      "bank",
+      "kitchen",
+      "hospital",
+      "market"
+    ],
+    "expected": "hospital",
+    "predicted_choice": "hospital",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "bank": 0.002002331195399165,
+      "kitchen": 0.003819406498223543,
+      "hospital": 0.9639812111854553,
+      "market": 0.0011041179532185197
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "hospital .",
+    "prompt_truncated": false,
+    "reason": "The starter associates surgeon and patient with the hospital. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2040
+  },
+  {
+    "id": "lang_16",
+    "group": "starter_patterns",
+    "category": "domain_place",
+    "prompt": "the team discussed the tutor and the lesson at the",
+    "choices": [
+      "station",
+      "school",
+      "bank",
+      "kitchen"
+    ],
+    "expected": "school",
+    "predicted_choice": "school",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "station": 0.004976919386535883,
+      "school": 0.9576992988586426,
+      "bank": 2.8015923817292787e-05,
+      "kitchen": 5.1231640100013465e-05
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "school .",
+    "prompt_truncated": false,
+    "reason": "The starter associates tutor and lesson with the school. Sentences containing this exact prompt are reserved before training.",
+    "stage": "final",
+    "sample_seed": 2041
+  },
+  {
+    "id": "lang_17",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "our hospital discussed the nurse and the",
+    "choices": [
+      "health",
+      "traffic",
+      "price",
+      "juice"
+    ],
+    "expected": "health",
+    "predicted_choice": "health",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "health": 0.045848745852708817,
+      "traffic": 0.002330010524019599,
+      "price": 0.0012926541967317462,
+      "juice": 0.001166216330602765
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "warm are opposites .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2042
+  },
+  {
+    "id": "lang_18",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "yesterday the school discussed the educator and the",
+    "choices": [
+      "security",
+      "risk",
+      "harvest",
+      "student"
+    ],
+    "expected": "student",
+    "predicted_choice": "student",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "security": 1.6025579725464922e-06,
+      "risk": 4.349160008132458e-06,
+      "harvest": 3.3956998777284753e-06,
+      "student": 0.004169493913650513
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "new lecturer .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2043
+  },
+  {
+    "id": "lang_19",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "the bank report discussed the bond and the",
+    "choices": [
+      "code",
+      "taste",
+      "return",
+      "care"
+    ],
+    "expected": "return",
+    "predicted_choice": "return",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "code": 0.0003488763468340039,
+      "taste": 0.00018733787874225527,
+      "return": 0.1496773362159729,
+      "care": 0.0002902946143876761
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "bank .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2044
+  },
+  {
+    "id": "lang_20",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "our kitchen report discussed the pear and the",
+    "choices": [
+      "data",
+      "fruit",
+      "order",
+      "payment"
+    ],
+    "expected": "fruit",
+    "predicted_choice": "fruit",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "data": 2.678987402759958e-05,
+      "fruit": 0.021226463839411736,
+      "order": 3.1805575417820364e-05,
+      "payment": 4.314516263548285e-05
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "kitchen .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2045
+  },
+  {
+    "id": "lang_21",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "the station report compared the bus and the",
+    "choices": [
+      "route",
+      "lesson",
+      "design",
+      "patient"
+    ],
+    "expected": "route",
+    "predicted_choice": "route",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "route": 0.015236591920256615,
+      "lesson": 0.0008769436390139163,
+      "design": 0.00048172485549002886,
+      "patient": 2.3656859411858022e-05
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "new truck .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2046
+  },
+  {
+    "id": "lang_22",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "yesterday our office discussed the platform and the",
+    "choices": [
+      "harvest",
+      "journey",
+      "treatment",
+      "update"
+    ],
+    "expected": "update",
+    "predicted_choice": "update",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "harvest": 0.00017897083307616413,
+      "journey": 3.6977953641326167e-06,
+      "treatment": 0.0009741696412675083,
+      "update": 0.10870105028152466
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "data .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2047
+  },
+  {
+    "id": "lang_23",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "the store report discussed the subscriber and the",
+    "choices": [
+      "health",
+      "interest",
+      "support",
+      "traffic"
+    ],
+    "expected": "support",
+    "predicted_choice": "support",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "health": 1.6828993466333486e-05,
+      "interest": 5.720474655390717e-05,
+      "support": 0.09937676787376404,
+      "traffic": 9.780340042198077e-05
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "service at the store .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2048
+  },
+  {
+    "id": "lang_24",
+    "group": "starter_transfer",
+    "category": "new_wording",
+    "prompt": "our market report compared the package and the",
+    "choices": [
+      "code",
+      "delivery",
+      "student",
+      "juice"
+    ],
+    "expected": "delivery",
+    "predicted_choice": "delivery",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "code": 3.2898162771743955e-06,
+      "delivery": 0.009358002804219723,
+      "student": 7.530840957770124e-05,
+      "juice": 4.242516752128722e-06
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "different merchandise .",
+    "prompt_truncated": false,
+    "reason": "All words and the domain association exist in the starter, but this word order is new. Failure may reflect dependence on sentence templates.",
+    "stage": "final",
+    "sample_seed": 2049
+  },
+  {
+    "id": "lang_25",
+    "group": "extend_corpus",
+    "category": "grammar",
+    "prompt": "one bird",
+    "choices": [
+      "is",
+      "are",
+      "were",
+      "am"
+    ],
+    "expected": "is",
+    "predicted_choice": "is",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "is": 0.9856730699539185,
+      "are": 5.589364263869356e-06,
+      "were": 8.574351340939756e-06,
+      "am": 1.175272700493224e-06
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "is dry .",
+    "prompt_truncated": false,
+    "reason": "A singular third-person subject takes is in the present tense.",
+    "stage": "final",
+    "sample_seed": 2050
+  },
+  {
+    "id": "lang_26",
+    "group": "extend_corpus",
+    "category": "grammar",
+    "prompt": "the dogs",
+    "choices": [
+      "is",
+      "am",
+      "was",
+      "are"
+    ],
+    "expected": "are",
+    "predicted_choice": "are",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "is": 0.0016983830137178302,
+      "am": 0.000692856905516237,
+      "was": 0.001496661570854485,
+      "are": 0.564594030380249
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "are quiet .",
+    "prompt_truncated": false,
+    "reason": "A plural subject takes are among these present/past singular distractors.",
+    "stage": "final",
+    "sample_seed": 2051
+  },
+  {
+    "id": "lang_27",
+    "group": "extend_corpus",
+    "category": "grammar",
+    "prompt": "yesterday she",
+    "choices": [
+      "walking",
+      "walk",
+      "walked",
+      "walks"
+    ],
+    "expected": "walked",
+    "predicted_choice": "walked",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "walking": 0.00046378994011320174,
+      "walk": 0.012661579996347427,
+      "walked": 0.8604177832603455,
+      "walks": 0.036006730049848557
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "walked to the market yesterday .",
+    "prompt_truncated": false,
+    "reason": "The explicit past-time cue calls for the past-tense form walked.",
+    "stage": "final",
+    "sample_seed": 2052
+  },
+  {
+    "id": "lang_28",
+    "group": "extend_corpus",
+    "category": "opposites",
+    "prompt": "the opposite of hot is",
+    "choices": [
+      "fast",
+      "cold",
+      "warm",
+      "heavy"
+    ],
+    "expected": "cold",
+    "predicted_choice": "cold",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "fast": 0.00024233463045675308,
+      "cold": 0.7745525240898132,
+      "warm": 0.007168930489569902,
+      "heavy": 0.00048120651626959443
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "cold .",
+    "prompt_truncated": false,
+    "reason": "Hot and cold form the intended temperature contrast.",
+    "stage": "final",
+    "sample_seed": 2053
+  },
+  {
+    "id": "lang_29",
+    "group": "extend_corpus",
+    "category": "opposites",
+    "prompt": "the opposite of empty is",
+    "choices": [
+      "full",
+      "quiet",
+      "early",
+      "soft"
+    ],
+    "expected": "full",
+    "predicted_choice": "full",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "full": 0.5219311118125916,
+      "quiet": 0.0023493182379752398,
+      "early": 0.0014690887182950974,
+      "soft": 0.0020037079229950905
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "full .",
+    "prompt_truncated": false,
+    "reason": "Empty and full contrast how much a container holds.",
+    "stage": "final",
+    "sample_seed": 2054
+  },
+  {
+    "id": "lang_30",
+    "group": "extend_corpus",
+    "category": "opposites",
+    "prompt": "the opposite of noisy is",
+    "choices": [
+      "loud",
+      "round",
+      "late",
+      "quiet"
+    ],
+    "expected": "quiet",
+    "predicted_choice": "quiet",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "loud": 0.003886248217895627,
+      "round": 0.06422478705644608,
+      "late": 0.0010143918916583061,
+      "quiet": 0.7025975584983826
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "quiet .",
+    "prompt_truncated": false,
+    "reason": "Noisy and quiet contrast the amount of sound.",
+    "stage": "final",
+    "sample_seed": 2055
+  },
+  {
+    "id": "lang_31",
+    "group": "extend_corpus",
+    "category": "negation",
+    "prompt": "the box is not red . it is blue . the box is",
+    "choices": [
+      "green",
+      "yellow",
+      "blue",
+      "red"
+    ],
+    "expected": "blue",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "blue",
+      "box",
+      "red"
+    ],
+    "unknown_choices": [
+      "green",
+      "yellow",
+      "blue",
+      "red"
+    ],
+    "generated_text": ".",
+    "prompt_truncated": false,
+    "reason": "Use the positive color statement rather than the explicitly rejected color.",
+    "stage": "final",
+    "sample_seed": 2056
+  },
+  {
+    "id": "lang_32",
+    "group": "extend_corpus",
+    "category": "negation",
+    "prompt": "ava did not buy tea . she bought milk . ava bought",
+    "choices": [
+      "rice",
+      "milk",
+      "tea",
+      "bread"
+    ],
+    "expected": "milk",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "ava",
+      "bought",
+      "buy",
+      "did",
+      "milk",
+      "tea"
+    ],
+    "unknown_choices": [
+      "rice",
+      "milk",
+      "tea",
+      "bread"
+    ],
+    "generated_text": "nurse and then it is the student at the health at the cat is why sand is cold and then it is walking to",
+    "prompt_truncated": false,
+    "reason": "The purchase is milk; the tea purchase is explicitly negated.",
+    "stage": "final",
+    "sample_seed": 2057
+  },
+  {
+    "id": "lang_33",
+    "group": "extend_corpus",
+    "category": "negation",
+    "prompt": "the door is not open . it is closed . the door is",
+    "choices": [
+      "closed",
+      "open",
+      "wide",
+      "missing"
+    ],
+    "expected": "closed",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "closed",
+      "door",
+      "open"
+    ],
+    "unknown_choices": [
+      "closed",
+      "open",
+      "wide",
+      "missing"
+    ],
+    "generated_text": "vehicle .",
+    "prompt_truncated": false,
+    "reason": "Respect not open and the explicit statement closed.",
+    "stage": "final",
+    "sample_seed": 2058
+  },
+  {
+    "id": "lang_34",
+    "group": "extend_corpus",
+    "category": "reference",
+    "prompt": "maya lent a book to leo . leo thanked",
+    "choices": [
+      "leo",
+      "nora",
+      "omar",
+      "maya"
+    ],
+    "expected": "maya",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "book",
+      "lent",
+      "leo",
+      "maya",
+      "thanked"
+    ],
+    "unknown_choices": [
+      "leo",
+      "nora",
+      "omar",
+      "maya"
+    ],
+    "generated_text": "vegetable foot .",
+    "prompt_truncated": false,
+    "reason": "Leo thanks the person who lent the book, Maya.",
+    "stage": "final",
+    "sample_seed": 2059
+  },
+  {
+    "id": "lang_35",
+    "group": "extend_corpus",
+    "category": "reference",
+    "prompt": "ella gave finn a pencil . the person who received the pencil was",
+    "choices": [
+      "sara",
+      "noah",
+      "finn",
+      "ella"
+    ],
+    "expected": "finn",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "ella",
+      "finn",
+      "gave",
+      "pencil",
+      "received",
+      "who"
+    ],
+    "unknown_choices": [
+      "sara",
+      "noah",
+      "finn",
+      "ella"
+    ],
+    "generated_text": "walking to the local shopper compared the student yesterday .",
+    "prompt_truncated": false,
+    "reason": "Finn is the recipient rather than the giver.",
+    "stage": "final",
+    "sample_seed": 2060
+  },
+  {
+    "id": "lang_36",
+    "group": "extend_corpus",
+    "category": "reference",
+    "prompt": "omar called nina . nina answered the call from",
+    "choices": [
+      "emma",
+      "omar",
+      "nina",
+      "luca"
+    ],
+    "expected": "omar",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "answered",
+      "call",
+      "called",
+      "nina",
+      "omar"
+    ],
+    "unknown_choices": [
+      "emma",
+      "omar",
+      "nina",
+      "luca"
+    ],
+    "generated_text": "from hot and fabric .",
+    "prompt_truncated": false,
+    "reason": "Omar is the caller; Nina is the person answering.",
+    "stage": "final",
+    "sample_seed": 2061
+  },
+  {
+    "id": "lang_37",
+    "group": "extend_corpus",
+    "category": "sequence",
+    "prompt": "first wash the cup . then dry it . the last action is",
+    "choices": [
+      "dry",
+      "wash",
+      "buy",
+      "fill"
+    ],
+    "expected": "dry",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "action",
+      "cup",
+      "first",
+      "last",
+      "wash"
+    ],
+    "unknown_choices": [
+      "wash",
+      "buy",
+      "fill"
+    ],
+    "generated_text": "",
+    "prompt_truncated": false,
+    "reason": "Drying follows washing in the stated sequence.",
+    "stage": "final",
+    "sample_seed": 2062
+  },
+  {
+    "id": "lang_38",
+    "group": "extend_corpus",
+    "category": "sequence",
+    "prompt": "lunch happens after breakfast . the earlier meal is",
+    "choices": [
+      "lunch",
+      "dinner",
+      "supper",
+      "breakfast"
+    ],
+    "expected": "breakfast",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "breakfast",
+      "earlier",
+      "happens",
+      "lunch",
+      "meal"
+    ],
+    "unknown_choices": [
+      "lunch",
+      "dinner",
+      "supper",
+      "breakfast"
+    ],
+    "generated_text": "an umbrella is very hot and a fruit .",
+    "prompt_truncated": false,
+    "reason": "The relation after makes breakfast the earlier meal.",
+    "stage": "final",
+    "sample_seed": 2063
+  },
+  {
+    "id": "lang_39",
+    "group": "extend_corpus",
+    "category": "sequence",
+    "prompt": "the train arrived before the bus . the vehicle that arrived later was the",
+    "choices": [
+      "taxi",
+      "car",
+      "bus",
+      "train"
+    ],
+    "expected": "bus",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "arrived",
+      "before",
+      "later"
+    ],
+    "unknown_choices": [],
+    "generated_text": "route .",
+    "prompt_truncated": false,
+    "reason": "Reverse the stated before relation to identify the later arrival.",
+    "stage": "final",
+    "sample_seed": 2064
+  },
+  {
+    "id": "lang_40",
+    "group": "extend_corpus",
+    "category": "spatial_relations",
+    "prompt": "the book is inside the bag . the bag contains the",
+    "choices": [
+      "lamp",
+      "book",
+      "shelf",
+      "desk"
+    ],
+    "expected": "book",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "bag",
+      "book",
+      "contains",
+      "inside"
+    ],
+    "unknown_choices": [
+      "book",
+      "shelf",
+      "desk"
+    ],
+    "generated_text": "important instructor .",
+    "prompt_truncated": false,
+    "reason": "Restate inside as the inverse relation contains.",
+    "stage": "final",
+    "sample_seed": 2065
+  },
+  {
+    "id": "lang_41",
+    "group": "extend_corpus",
+    "category": "spatial_relations",
+    "prompt": "the lamp is above the desk . the desk is",
+    "choices": [
+      "below",
+      "above",
+      "inside",
+      "beside"
+    ],
+    "expected": "below",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "above",
+      "desk"
+    ],
+    "unknown_choices": [
+      "below",
+      "above",
+      "inside",
+      "beside"
+    ],
+    "generated_text": "another investment .",
+    "prompt_truncated": false,
+    "reason": "Above and below are inverse vertical relations.",
+    "stage": "final",
+    "sample_seed": 2066
+  },
+  {
+    "id": "lang_42",
+    "group": "extend_corpus",
+    "category": "spatial_relations",
+    "prompt": "the ball is left of the box . the box is to the",
+    "choices": [
+      "left",
+      "north",
+      "south",
+      "right"
+    ],
+    "expected": "right",
+    "predicted_choice": null,
+    "score": 0,
+    "status": "out_of_vocabulary",
+    "choice_probabilities": {},
+    "unknown_prompt_words": [
+      "ball",
+      "box",
+      "left"
+    ],
+    "unknown_choices": [
+      "left",
+      "north",
+      "south",
+      "right"
+    ],
+    "generated_text": "new dentist .",
+    "prompt_truncated": false,
+    "reason": "Reverse the stated horizontal relation; complete with right.",
+    "stage": "final",
+    "sample_seed": 2067
+  },
+  {
+    "id": "lang_43",
+    "group": "extend_corpus",
+    "category": "everyday_knowledge",
+    "prompt": "water freezes into",
+    "choices": [
+      "sand",
+      "wood",
+      "ice",
+      "steam"
+    ],
+    "expected": "ice",
+    "predicted_choice": "steam",
+    "score": 0,
+    "status": "scored",
+    "choice_probabilities": {
+      "sand": 0.0007341956370510161,
+      "wood": 8.003622497199103e-05,
+      "ice": 0.001925083575770259,
+      "steam": 0.0025490412954241037
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "water .",
+    "prompt_truncated": false,
+    "reason": "Freezing changes liquid water into ice.",
+    "stage": "final",
+    "sample_seed": 2068
+  },
+  {
+    "id": "lang_44",
+    "group": "extend_corpus",
+    "category": "everyday_knowledge",
+    "prompt": "a person uses an umbrella to stay",
+    "choices": [
+      "asleep",
+      "dry",
+      "wet",
+      "hungry"
+    ],
+    "expected": "dry",
+    "predicted_choice": "dry",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "asleep": 1.0059789019578602e-05,
+      "dry": 0.20812192559242249,
+      "wet": 0.0009280080557800829,
+      "hungry": 8.80098741617985e-06
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "dry .",
+    "prompt_truncated": false,
+    "reason": "An umbrella typically keeps a person dry in rain.",
+    "stage": "final",
+    "sample_seed": 2069
+  },
+  {
+    "id": "lang_45",
+    "group": "extend_corpus",
+    "category": "everyday_knowledge",
+    "prompt": "to see in a dark room we turn on a",
+    "choices": [
+      "light",
+      "pillow",
+      "spoon",
+      "shoe"
+    ],
+    "expected": "light",
+    "predicted_choice": "light",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "light": 0.40402913093566895,
+      "pillow": 0.01196485199034214,
+      "spoon": 0.009469597600400448,
+      "shoe": 0.0059991516172885895
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "person dry .",
+    "prompt_truncated": false,
+    "reason": "A light illuminates a dark room.",
+    "stage": "final",
+    "sample_seed": 2070
+  },
+  {
+    "id": "lang_46",
+    "group": "extend_corpus",
+    "category": "categories_and_analogies",
+    "prompt": "a robin is a bird . a salmon is a",
+    "choices": [
+      "bird",
+      "tree",
+      "tool",
+      "fish"
+    ],
+    "expected": "fish",
+    "predicted_choice": "fish",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "bird": 0.0013604200212284923,
+      "tree": 8.878389508026885e-07,
+      "tool": 0.0003334135399200022,
+      "fish": 0.9940339922904968
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "fish .",
+    "prompt_truncated": false,
+    "reason": "Salmon belongs to the fish category.",
+    "stage": "final",
+    "sample_seed": 2071
+  },
+  {
+    "id": "lang_47",
+    "group": "extend_corpus",
+    "category": "categories_and_analogies",
+    "prompt": "a puppy grows into a dog . a kitten grows into a",
+    "choices": [
+      "duck",
+      "goat",
+      "cat",
+      "horse"
+    ],
+    "expected": "cat",
+    "predicted_choice": "cat",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "duck": 0.003807323519140482,
+      "goat": 0.07185667008161545,
+      "cat": 0.5107780694961548,
+      "horse": 0.049492500722408295
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "cat .",
+    "prompt_truncated": false,
+    "reason": "Match the young animal to its adult category.",
+    "stage": "final",
+    "sample_seed": 2072
+  },
+  {
+    "id": "lang_48",
+    "group": "extend_corpus",
+    "category": "categories_and_analogies",
+    "prompt": "a carrot is a vegetable . an apple is a",
+    "choices": [
+      "fabric",
+      "fruit",
+      "metal",
+      "vehicle"
+    ],
+    "expected": "fruit",
+    "predicted_choice": "fruit",
+    "score": 1,
+    "status": "scored",
+    "choice_probabilities": {
+      "fabric": 6.657372523477534e-06,
+      "fruit": 0.9652619361877441,
+      "metal": 2.8453929189709015e-05,
+      "vehicle": 0.007870255038142204
+    },
+    "unknown_prompt_words": [],
+    "unknown_choices": [],
+    "generated_text": "fruit .",
+    "prompt_truncated": false,
+    "reason": "An apple belongs to the fruit category in this food classification.",
+    "stage": "final",
+    "sample_seed": 2073
+  }
+]

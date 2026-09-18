@@ -1,0 +1,20 @@
+{
+  "0.3": [
+    "the team discussed the loan and the risk at the bank .",
+    "the local peach was mentioned in the fruit report yesterday .",
+    "the important bus was mentioned in the travel report yesterday .",
+    "the team discussed the product and the design at the market ."
+  ],
+  "0.8": [
+    "the team discussed the loan and the interest at the bank .",
+    "our store has a question about the local buyer and purchase .",
+    "we learned about the new shopper during a discussion of purchase .",
+    "a review of patient helped us understand the local surgeon ."
+  ],
+  "1.2": [
+    "short is the opposite of long .",
+    "a review of treatment helped us understand the new surgeon .",
+    "today the hospital focused on care and the different physician .",
+    "the new program was mentioned in the update report yesterday ."
+  ]
+}

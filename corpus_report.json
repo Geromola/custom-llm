@@ -527,7 +527,6 @@
     "lang_38": {
       "category": "sequence",
       "missing_after_extension": [
-        "after",
         "breakfast",
         "dinner",
         "earlier",
@@ -543,8 +542,7 @@
       "missing_after_extension": [
         "arrived",
         "before",
-        "later",
-        "taxi"
+        "later"
       ],
       "covered": false
     },
@@ -618,5 +616,5 @@
   "taught_cases": 12,
   "untaught_cases_fully_covered": 0,
   "untaught_cases": 12,
-  "starter_vocabulary_known": 0
+  "starter_vocabulary_known": 133
 }

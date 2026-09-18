@@ -1,0 +1,54 @@
+{
+  "files": [
+    {
+      "file": "categories_and_analogies.md",
+      "bytes": 13524,
+      "sha256": "9cb01d2df31e3b353fd45274015f962b685d7f028b2f7df02350234974003c43",
+      "warnings": [],
+      "characters": 13524,
+      "passages": 329,
+      "unique_passages": 329,
+      "preview": "a banana is a fruit .\na banana is a fruit .a bus is a vehicle .\na banana is a fruit .a car is a vehicle .\na banana is a fruit .a carrot is a vegetable .\na banana is a fruit .a cat is an animal .\na banana is a fruit .a dog is an animal .\na banana is a fruit .a duck is a bird .\na banana is a fruit .a "
+    },
+    {
+      "file": "everyday_knowledge.pdf",
+      "bytes": 105850,
+      "sha256": "0486453d8ac52f2b600b3507cbf0151d176b8415ca55bad1a36b804abf65b556",
+      "warnings": [],
+      "pages": 8,
+      "characters": 13026,
+      "passages": 252,
+      "unique_passages": 252,
+      "preview": "a cat is asleep in the warm room .\na dark room needs a light .\na dry towel is warm .\na hungry person eats an apple .\na hungry person is not asleep .\na person uses a light to see at night .\na person uses a spoon to eat .\na person wears a shoe on each foot .\na person without an umbrella gets wet .\na p"
+    },
+    {
+      "file": "grammar.md",
+      "bytes": 12595,
+      "sha256": "83463d8189e5b973508dfce71b833ca25d2e0e8937f69a5c3afcb064c2e6afe6",
+      "warnings": [],
+      "characters": 12595,
+      "passages": 420,
+      "unique_passages": 420,
+      "preview": "a bird is quiet .\na bird is small .\na bird is warm .\na carrot is calm .\na carrot is cold .\na carrot is heavy .\na carrot is loud .\na cat is heavy .\na dog is heavy .\na dog is soft .\na goat is soft .\na horse is fast .\na horse is slow .\na horse is wet .\na pillow is calm .\na pillow is quiet .\na puppy is "
+    },
+    {
+      "file": "opposites.md",
+      "bytes": 16330,
+      "sha256": "7fa5ffa3c3f4e50357846dc1dab26718fa268def17511ef5f4f6869f663c8cdb",
+      "warnings": [],
+      "characters": 16330,
+      "passages": 420,
+      "unique_passages": 420,
+      "preview": "a big day is the opposite of a small day .\na big kitchen is not a small kitchen .\na big office is not a small office .\na big store is not a small store .\na big street is not a small street .\na bright bank is not a dark bank .\na bright day is the opposite of a dark day .\na bright market is not a dark"
+    }
+  ],
+  "ignored": [],
+  "external_passages": 1421,
+  "mode": "classroom",
+  "base_passages": 6200,
+  "unique_passages": 6010,
+  "new_unique_passages": 1418,
+  "duplicates_removed": 1611,
+  "max_passage_tokens": 47,
+  "split_unit": "deduplicated passage, not source file"
+}

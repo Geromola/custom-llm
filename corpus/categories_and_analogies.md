@@ -150,8 +150,8 @@ a kitten grows into a cat .a chick grows into a duck .
 a kitten grows into a cat .a foal grows into a horse .
 a kitten grows into a cat .a kid grows into a goat .
 a kitten grows into a cat .a puppy grows into a dog .
-a kitten grows into a cat .a seed grows into a tree .
 a pear is a fruit .
+a kitten grows into a cat .a seed grows into a tree .
 a pear is a fruit .a bus is a vehicle .
 a pear is a fruit .a car is a vehicle .
 a pear is a fruit .a carrot is a vegetable .
@@ -200,11 +200,11 @@ a salmon is a fish .a goat is an animal .
 a salmon is a fish .a horse is an animal .
 a salmon is a fish .a pear is a fruit .
 a salmon is a fish .a robin is a bird .
+a seed grows into a tree .
 a salmon is a fish .a spoon is a tool .
 a salmon is a fish .a train is a vehicle .
 a salmon is a fish .a tree is a plant .
 a salmon is a fish .an apple is a fruit .
-a seed grows into a tree .
 a seed grows into a tree .a chick grows into a duck .
 a seed grows into a tree .a foal grows into a horse .
 a seed grows into a tree .a kid grows into a goat .
@@ -275,6 +275,7 @@ an apple is a fruit .
 an apple is a fruit .a bus is a vehicle .
 an apple is a fruit .a car is a vehicle .
 an apple is a fruit .a carrot is a vegetable .
+an umbrella is made of fabric .
 an apple is a fruit .a cat is an animal .
 an apple is a fruit .a dog is an animal .
 an apple is a fruit .a duck is a bird .
@@ -285,7 +286,6 @@ an apple is a fruit .a salmon is a fish .
 an apple is a fruit .a spoon is a tool .
 an apple is a fruit .a train is a vehicle .
 an apple is a fruit .a tree is a plant .
-an umbrella is made of fabric .
 an umbrella is made of fabric .a car is made of metal .
 an umbrella is made of fabric .a spoon is made of metal .
 an umbrella is made of fabric .a tree is made of wood .

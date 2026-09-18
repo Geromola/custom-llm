@@ -1,0 +1,16 @@
+{
+  "model_sha256": "8b39337b5043ce195dbc3ac473eeee6b50c4a3126b9be1d0e9f4acd626f3b775",
+  "completed_steps": 3000,
+  "fresh_context_per_prompt": true,
+  "temperature": 0.8,
+  "max_tokens": 24,
+  "turns": [
+    {
+      "prompt": "the customer",
+      "seed": 2026,
+      "response": "compared the item after checking the price .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "experiment": "exp3-longer",
+  "llm_run": "20260918T004341_801425Z",
+  "settings": {
+    "corpus": "classroom",
+    "corpus_folder": "corpus",
+    "steps": 9000,
+    "learning_rate": 0.001,
+    "seed": 42
+  },
+  "executed_notebook": "exp3.ipynb"
+}

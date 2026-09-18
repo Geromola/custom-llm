@@ -1,0 +1,11 @@
+{
+  "experiment": "exp1-starter",
+  "llm_run": "20260918T004124_364762Z",
+  "settings": {
+    "corpus": "classroom",
+    "corpus_folder": "corpus_starter",
+    "steps": 3000,
+    "learning_rate": 0.001
+  },
+  "executed_notebook": "custom_llm_exp1-starter.ipynb"
+}
