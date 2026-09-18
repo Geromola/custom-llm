@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside a tiny language model</title>
+<style>
+  :root{
+    --bg:#11141a; --panel:#181c24; --panel-2:#1e2330; --line:#2a3140;
+    --ink:#e6e9ef; --ink-dim:#97a1b4; --ink-faint:#6b768c;
+    --accent:#6ea8fe; --taught:#5ad1a5; --untaught:#f2a65a; --starter:#b48ef2;
+    --warn:#ff8f8f; --radius:10px;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#f7f8fa; --panel:#fff; --panel-2:#f0f2f6; --line:#dfe3ea;
+      --ink:#161a20; --ink-dim:#57617a; --ink-faint:#8a93a6;
+      --accent:#2563c9; --taught:#1d9b74; --untaught:#c2701a; --starter:#7b4fc0; --warn:#c4362f;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  header{padding:22px 16px 0;max-width:1180px;margin:0 auto}
+  h1{font-size:23px;margin:0 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--ink-dim);font-size:13.5px;margin:0 0 14px;max-width:70ch}
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--ink-dim);
+    font:inherit;font-size:14px;padding:9px 13px;cursor:pointer;margin-bottom:-1px}
+  .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+  main{max-width:1180px;margin:0 auto;padding:18px 16px 64px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+  .controls{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+  .ctl{display:flex;flex-direction:column;gap:5px}
+  .ctl label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint)}
+  select,input[type=search]{background:var(--panel-2);color:var(--ink);border:1px solid var(--line);
+    border-radius:7px;padding:6px 9px;font:inherit;font-size:13.5px}
+  input[type=range]{width:150px;accent-color:var(--accent)}
+  .seg{display:flex;background:var(--panel-2);border:1px solid var(--line);border-radius:7px;overflow:hidden;flex-wrap:wrap}
+  .seg button{background:none;border:0;color:var(--ink-dim);font:inherit;font-size:13px;
+    padding:6px 11px;cursor:pointer;white-space:nowrap}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .split{display:grid;grid-template-columns:1fr 390px;gap:14px;align-items:start}
+  @media (max-width:980px){.split{grid-template-columns:1fr}}
+  .rail{display:flex;flex-direction:column;gap:12px}
+  .rail .side{max-height:none}
+  .row{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  textarea{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--line);
+    border-radius:7px;padding:8px 9px;font:inherit;font-size:13.5px;resize:vertical}
+  #chat-log{max-height:190px;overflow:auto;margin:8px 0;font-size:13.5px}
+  .turn{border-left:2px solid var(--line);padding:2px 0 2px 9px;margin-bottom:8px}
+  .turn .said{color:var(--ink-dim)}
+  .turn .grown{font-family:var(--mono);font-size:12.5px}
+  .turn .grown b{color:var(--taught);font-weight:600}
+  .cand{display:grid;grid-template-columns:76px 1fr 66px;gap:7px;align-items:center;
+    font-size:12.5px;margin-bottom:3px}
+  .cand .w{font-family:var(--mono);overflow:hidden;text-overflow:ellipsis}
+  .cand .track{background:var(--panel);border-radius:4px;height:10px;overflow:hidden}
+  .cand .fill{height:100%;background:var(--accent);border-radius:4px}
+  .cand.picked .w{color:var(--taught);font-weight:600}
+  .cand.picked .fill{background:var(--taught)}
+  .cand .p{text-align:right;font-family:var(--mono);color:var(--ink-dim);font-size:11.5px;white-space:nowrap}
+  canvas{display:block;width:100%;height:560px;border-radius:8px;background:var(--panel-2);
+    border:1px solid var(--line);touch-action:none}
+  .side{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px;
+    max-height:560px;overflow:auto}
+  .side h3{margin:0 0 2px;font-size:17px;font-family:var(--mono)}
+  .muted{color:var(--ink-dim);font-size:12.5px}
+  .faint{color:var(--ink-faint);font-size:12px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dim);margin-top:10px}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:baseline}
+  table{border-collapse:collapse;width:100%;font-size:13px}
+  th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--ink-faint);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+  code,.mono{font-family:var(--mono);font-size:12.5px}
+  .chip{display:inline-block;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
+    padding:2px 7px;margin:2px 3px 2px 0;font-family:var(--mono);font-size:12.5px}
+  .chip.unk{border-color:var(--warn);color:var(--warn)}
+  .vec{display:flex;gap:1px;margin:6px 0;height:22px}
+  .vec i{flex:1;border-radius:1px}
+  .bar{height:9px;border-radius:4px;background:var(--accent)}
+  .note{font-size:12.5px;color:var(--ink-dim);border-left:2px solid var(--line);padding-left:10px;margin:12px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+  .heads{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:820px){.heads{grid-template-columns:repeat(2,1fr)}}
+  .head svg{display:block;width:100%;height:auto}
+  .head h4{margin:0 0 5px;font-size:11.5px;color:var(--ink-faint);font-weight:600;
+    text-transform:uppercase;letter-spacing:.06em}
+  .loading{color:var(--ink-faint);padding:40px 0;text-align:center}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px;margin:8px 0}
+  .kv b{color:var(--ink-dim);font-weight:500}
+  .pill{display:inline-block;padding:1px 7px;border-radius:99px;font-size:11px;
+    border:1px solid var(--line);color:var(--ink-dim)}
+  .ok{color:var(--taught)} .bad{color:var(--warn)}
+  button.play{background:var(--panel-2);border:1px solid var(--line);color:var(--ink);
+    border-radius:7px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+  section[hidden]{display:none}
+</style>
+
+<header>
+  <h1>Inside a tiny language model</h1>
+  <p class="sub">A 122k-parameter nanoGPT trained from scratch on word tokens, shown three ways:
+    the map its embeddings form, the actual arithmetic one prompt goes through, and how both
+    change over 3,000 training steps. Every number on this page was read from the saved runs —
+    nothing is illustrative.</p>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-graph" aria-selected="true">Word graph &amp; chat</button>
+    <button role="tab" id="tab-layers" aria-selected="false">Layers</button>
+    <button role="tab" id="tab-progress" aria-selected="false">Progress</button>
+  </div>
+</header>
+
+<main>
+<!-- ───────────────────────────────────────────────────────────────── graph -->
+<section id="view-graph">
+  <div class="controls">
+    <div class="ctl"><label>Model</label><div class="seg" id="graph-states"></div></div>
+    <div class="ctl"><label>Colour by</label>
+      <select id="graph-colour">
+        <option value="eval">Eval category</option>
+        <option value="new">Where the word came from</option>
+        <option value="freq">How often it was trained on</option>
+      </select></div>
+    <div class="ctl"><label>Links per word: <span id="k-out" class="mono">4</span></label>
+      <input type="range" id="graph-k" min="1" max="8" value="4"></div>
+    <div class="ctl"><label>Min. similarity: <span id="t-out" class="mono">0.55</span></label>
+      <input type="range" id="graph-t" min="0" max="95" value="55"></div>
+    <div class="ctl"><label>Find a word</label><input type="search" id="graph-find" placeholder="surgeon"></div>
+  </div>
+  <div class="split">
+    <div><canvas id="graph-canvas"></canvas>
+      <div class="legend" id="graph-legend"></div>
+      <p class="note" id="graph-stats"></p>
+    </div>
+    <div class="rail">
+      <div class="side">
+        <h3>Talk to it</h3>
+        <p class="faint" id="model-id">loading the weights…</p>
+        <div id="chat-log"></div>
+        <textarea id="chat-input" rows="2" placeholder="the report about the surgeon explains the"></textarea>
+        <div class="row">
+          <button class="play" id="chat-step">Predict one word</button>
+          <button class="play" id="chat-run">Continue ×8</button>
+          <button class="play" id="chat-clear">Clear</button>
+        </div>
+        <div class="ctl" style="margin-top:9px">
+          <label>Temperature <span id="temp-out" class="mono">0.80</span></label>
+          <input type="range" id="chat-temp" min="10" max="200" value="80">
+        </div>
+      </div>
+      <div class="side" id="predict-panel"></div>
+      <div class="side" id="graph-side"></div>
+    </div>
+  </div>
+  <p class="note">The map on the left is the model's own vocabulary: two words are tied together
+    when each is among the other's most similar vectors, measured across all 64 dimensions.
+    Nothing labelled those groups — the model only ever read sentences and was only ever asked
+    for the next word. Type on the right and the map turns into an explanation: the words of your
+    prompt light up, dashed lines show which of them the last token actually attended to, and
+    solid rays fan out to the words the model is considering next, thick in proportion to their
+    probability. The word it picks is the one the ray leads to.</p>
+</section>
+
+<!-- ──────────────────────────────────────────────────────────────── layers -->
+<section id="view-layers" hidden>
+  <div class="controls">
+    <div class="ctl"><label>Prompt</label><select id="layer-prompt"></select></div>
+    <div class="ctl"><label>Weights</label><div class="seg" id="layer-states"></div></div>
+  </div>
+  <div id="layers-body"></div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────── progress -->
+<section id="view-progress" hidden>
+  <div id="progress-body" class="loading">loading…</div>
+</section>
+</main>
+
+<script src="gpt.js"></script>
+<script>
+"use strict";
+const $ = (s, r=document) => r.querySelector(s);
+const el = (tag, attrs={}, ...kids) => {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k === "html") node.innerHTML = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null) node.append(kid.nodeType ? kid : String(kid));
+  return node;
+};
+const NS = "http://www.w3.org/2000/svg";
+const svgEl = (tag, attrs={}, text=null) => {
+  const node = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+  if (text != null) node.textContent = text;
+  return node;
+};
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const fmt = (x, d=3) => Number(x).toFixed(d);
+const pct = x => 100 * x >= 0.1 ? (100 * x).toFixed(1) + "%"
+               : 100 * x >= 0.001 ? (100 * x).toFixed(3) + "%"
+               : (100 * x).toExponential(1) + "%";
+const load = async name => (await fetch(`data/${name}.json`)).json();
+
+/* ───────────────────────────────────────────────────────── tab switching */
+const VIEWS = ["graph", "layers", "progress"];
+const started = {};
+for (const view of VIEWS) {
+  $(`#tab-${view}`).addEventListener("click", () => {
+    for (const other of VIEWS) {
+      $(`#tab-${other}`).setAttribute("aria-selected", String(other === view));
+      $(`#view-${other}`).hidden = other !== view;
+    }
+    if (!started[view]) { started[view] = true; BOOT[view](); }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════ word graph */
+async function bootGraph() {
+  const data = await load("graph");
+  const canvas = $("#graph-canvas"), ctx = canvas.getContext("2d");
+  let state = data.states[3], nodes = [], links = [], selected = null, hover = null;
+  const normalised = new Map(), simCache = new Map(), models = new Map();
+  let model = null, overlay = null, conversation = [], turnSeed = 2026, lastDraw = null;
+
+  const segment = $("#graph-states");
+  data.states.forEach((s, i) => segment.append(el("button", {
+    "aria-pressed": String(i === 3), onclick: () => {
+      [...segment.children].forEach((b, j) => b.setAttribute("aria-pressed", String(j === i)));
+      state = s; rebuild(true); useModel(s.id);
+    }}, s.label)));
+
+  /* ---------------------------------------------------------------- similarity map */
+  function unitVectors(s) {
+    if (normalised.has(s.id)) return normalised.get(s.id);
+    const rows = s.embeddings.map(row => {
+      let n = 0; for (const v of row) n += v * v;
+      n = Math.sqrt(n) || 1;
+      return row.map(v => v / n);
+    });
+    normalised.set(s.id, rows);
+    return rows;
+  }
+  function neighbours(s, index, count) {
+    const key = `${s.id}:${index}`;
+    if (!simCache.has(key)) {
+      const rows = unitVectors(s), me = rows[index], out = [];
+      for (let j = 0; j < rows.length; j++) {
+        if (j === index) continue;
+        let dot = 0; const other = rows[j];
+        for (let d = 0; d < me.length; d++) dot += me[d] * other[d];
+        out.push([j, dot]);
+      }
+      out.sort((a, b) => b[1] - a[1]);
+      simCache.set(key, out.slice(0, 24));
+    }
+    return simCache.get(key).slice(0, count);
+  }
+
+  const SKIP = new Set(["<UNK>", "<BOS>", "<EOS>"]);
+  const byWord = new Map();
+  function colourOf(word, count, maxCount) {
+    const mode = $("#graph-colour").value;
+    if (mode === "eval") {
+      const roles = data.eval_words[word];
+      if (!roles) return css("--ink-faint");
+      if (roles.some(r => data.taught.includes(r.category))) return css("--taught");
+      if (roles.some(r => data.untaught.includes(r.category))) return css("--untaught");
+      return css("--starter");
+    }
+    if (mode === "new") return data.new_in_expanded.includes(word) ? css("--taught") : css("--accent");
+    const t = Math.log1p(count) / Math.log1p(maxCount || 1);
+    return `hsl(${215 - 150 * t} 70% ${35 + 35 * t}%)`;
+  }
+
+  function rebuild(keepPositions) {
+    const k = +$("#graph-k").value, threshold = +$("#graph-t").value / 100;
+    $("#k-out").textContent = k; $("#t-out").textContent = threshold.toFixed(2);
+    const previous = new Map(nodes.map(n => [n.word, n]));
+    const maxCount = Math.max(...state.counts);
+    nodes = state.vocabulary.map((word, i) => {
+      const old = keepPositions && previous.get(word);
+      return {word, index: i, count: state.counts[i],
+              x: old ? old.x : canvas.width / 2 + (Math.random() - .5) * 300,
+              y: old ? old.y : canvas.height / 2 + (Math.random() - .5) * 300,
+              vx: 0, vy: 0, maxCount};
+    }).filter(n => !SKIP.has(n.word));
+    byWord.clear();
+    for (const n of nodes) byWord.set(n.word, n);
+    const byIndex = new Map(nodes.map(n => [n.index, n]));
+    const seen = new Set(); links = [];
+    for (const node of nodes) {
+      for (const [j, sim] of neighbours(state, node.index, k)) {
+        const other = byIndex.get(j);
+        if (!other || sim < threshold) continue;
+        const key = node.index < j ? `${node.index}-${j}` : `${j}-${node.index}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        links.push({a: node, b: other, sim});
+      }
+    }
+    $("#graph-stats").textContent =
+      `${nodes.length} words · ${links.length} links · ${state.label}. ` +
+      (links.length === 0 ? "No pair passes this similarity threshold — lower it."
+                          : `Mean link similarity ${fmt(links.reduce((s,l)=>s+l.sim,0)/links.length,3)}.`);
+    heat = 1;
+    renderLegend();
+    if (selected) showWord(selected);
+  }
+
+  function renderLegend() {
+    const mode = $("#graph-colour").value;
+    const entries = mode === "eval"
+      ? [["--taught","word used by a category I taught"],["--untaught","word used by a control category"],
+         ["--starter","word used by the starter-corpus tests"],["--ink-faint","not used by any test"]]
+      : mode === "new"
+      ? [["--taught","added by my corpus extension"],["--accent","already in the starter corpus"]]
+      : [["--accent","rare in training"],["--taught","frequent in training"]];
+    $("#graph-legend").replaceChildren(...entries.map(([v, label]) =>
+      el("span", {}, el("i", {class:"dot", style:`background:${css(v)}`}), label)));
+  }
+
+  /* --------------------------------------------------------------- force layout */
+  let heat = 1;
+  const w0 = () => canvas.width, h0 = () => canvas.height;
+  function tick() {
+    if (heat > 0.004) {
+      const cx = w0() / 2, cy = h0() / 2;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          let dx = b.x - a.x, dy = b.y - a.y, d2 = dx*dx + dy*dy;
+          if (d2 < 1) { d2 = 1; dx = Math.random() - .5; dy = Math.random() - .5; }
+          if (d2 > 90000) continue;
+          const force = 900 / d2, d = Math.sqrt(d2);
+          a.vx -= force * dx / d; a.vy -= force * dy / d;
+          b.vx += force * dx / d; b.vy += force * dy / d;
+        }
+      }
+      for (const link of links) {
+        const dx = link.b.x - link.a.x, dy = link.b.y - link.a.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const force = (d - (34 + 46 * (1 - link.sim))) * 0.012;
+        link.a.vx += force * dx / d; link.a.vy += force * dy / d;
+        link.b.vx -= force * dx / d; link.b.vy -= force * dy / d;
+      }
+      const margin = 26;
+      for (const n of nodes) {
+        n.vx += (cx - n.x) * 0.006; n.vy += (cy - n.y) * 0.006;
+        n.x += n.vx * heat; n.y += n.vy * heat;
+        n.vx *= 0.82; n.vy *= 0.82;
+        n.x = Math.min(w0() - margin, Math.max(margin, n.x));
+        n.y = Math.min(h0() - margin, Math.max(margin, n.y));
+      }
+      heat *= 0.994;
+    }
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  let neighbourSet = new Set();
+  function draw() {
+    ctx.clearRect(0, 0, w0(), h0());
+    const live = overlay && overlay.candidates.length;
+    ctx.lineWidth = 1;
+    for (const link of links) {
+      const on = selected && (link.a.word === selected || link.b.word === selected);
+      ctx.strokeStyle = on ? css("--accent") : css("--line");
+      ctx.globalAlpha = live ? (on ? .6 : .16) : (on ? .95 : .5);
+      ctx.beginPath(); ctx.moveTo(link.a.x, link.a.y); ctx.lineTo(link.b.x, link.b.y); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    if (live) drawPrediction();
+
+    const showLabels = nodes.length <= 340 && w0() > 560;   // too crowded on a phone
+    for (const n of nodes) {
+      const r = 2.6 + 3.4 * Math.log1p(n.count) / Math.log1p(n.maxCount);
+      const on = n.word === selected, near = n.word === hover;
+      const role = overlay && overlay.roles.get(n.word);
+      let radius = on ? r + 2.4 : r;
+      if (role === "candidate") radius = r + 2 + 7 * overlay.probability.get(n.word);
+      if (role === "chosen") radius = r + 5;
+      ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, 6.2832);
+      ctx.fillStyle = role === "chosen" ? css("--taught")
+                    : role === "candidate" ? css("--taught")
+                    : role === "context" ? css("--accent")
+                    : colourOf(n.word, n.count, n.maxCount);
+      ctx.globalAlpha = live ? (role ? 1 : .22) : (selected && !on && !neighbourSet.has(n.word) ? .3 : 1);
+      ctx.fill();
+      if (on || role === "chosen") {
+        ctx.strokeStyle = css("--ink"); ctx.lineWidth = 1.6; ctx.stroke();
+      }
+      const label = showLabels || on || near || role;
+      if (label) {
+        ctx.globalAlpha = role || on || near ? 1 : (selected || live ? .3 : .75);
+        ctx.fillStyle = css("--ink");
+        ctx.font = `${role === "chosen" ? 13 : (role || on || near ? 12 : 10.5)}px ui-monospace, monospace`;
+        ctx.fillText(n.word, n.x + radius + 3, n.y + 3.5);
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function drawPrediction() {
+    const from = overlay.lastNode;
+    if (!from) return;
+    ctx.save();
+    ctx.setLineDash([4, 4]);                       // dashed = what the last token read
+    ctx.strokeStyle = css("--accent");
+    for (const {word, weight} of overlay.attention) {
+      const node = byWord.get(word);
+      if (!node || node === from || weight < 0.04) continue;
+      ctx.globalAlpha = Math.min(.9, .15 + weight);
+      ctx.lineWidth = 0.6 + 3.4 * weight;
+      ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(node.x, node.y); ctx.stroke();
+    }
+    ctx.setLineDash([]);                           // solid = where the next word could go
+    for (const candidate of overlay.candidates) {
+      const node = byWord.get(candidate.token);
+      if (!node) continue;
+      ctx.globalAlpha = Math.min(1, .25 + candidate.probability);
+      ctx.lineWidth = 0.8 + 6 * candidate.probability;
+      ctx.strokeStyle = candidate.token === overlay.chosen ? css("--taught") : css("--ink-faint");
+      ctx.beginPath();
+      ctx.moveTo(from.x, from.y);
+      const mx = (from.x + node.x) / 2, my = (from.y + node.y) / 2;
+      ctx.quadraticCurveTo(mx + (node.y - from.y) * .12, my - (node.x - from.x) * .12, node.x, node.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+    ctx.globalAlpha = 1;
+  }
+
+  /* ------------------------------------------------------------------ word panel */
+  function showWord(word) {
+    selected = word;
+    const index = state.vocabulary.indexOf(word);
+    if (index < 0) {
+      $("#graph-side").replaceChildren(el("h3", {}, word),
+        el("p", {class:"muted"}, `Not in this model's vocabulary — it would arrive as <UNK>, ` +
+          `carrying no information at all.`));
+      neighbourSet = new Set(); return;
+    }
+    const near = neighbours(state, index, 10);
+    neighbourSet = new Set(near.map(([j]) => state.vocabulary[j]));
+    const vector = state.embeddings[index];
+    const limit = Math.max(...vector.map(Math.abs)) || 1;
+    const roles = data.eval_words[word] || [];
+    $("#graph-side").replaceChildren(
+      el("h3", {}, word),
+      el("p", {class:"faint"}, `token id ${index} · seen ${state.counts[index].toLocaleString()} times in training · ` +
+        (data.new_in_expanded.includes(word) ? "added by my corpus extension" : "present in the starter corpus")),
+      el("div", {class:"vec"}, vector.map(v => el("i", {style:
+        `background:${v >= 0 ? css("--accent") : css("--untaught")};opacity:${.15 + .85 * Math.abs(v) / limit}`}))),
+      el("p", {class:"faint"}, "all 64 numbers of this word's vector · blue positive, orange negative"),
+      el("p", {class:"muted", style:"margin:10px 0 4px"}, "Closest words in the full 64-dimension space"),
+      el("table", {}, el("tbody", {}, near.map(([j, sim]) => el("tr", {},
+        el("td", {class:"mono", style:"cursor:pointer",
+                  onclick: () => showWord(state.vocabulary[j])}, state.vocabulary[j]),
+        el("td", {class:"num"}, fmt(sim, 3)))))),
+      roles.length
+        ? el("div", {}, el("p", {class:"muted", style:"margin:12px 0 4px"}, "Used by these eval cases"),
+            el("div", {}, roles.slice(0, 10).map(r => el("span", {class:"chip"}, `${r.case} ${r.role}`))))
+        : el("p", {class:"faint", style:"margin-top:12px"}, "No eval case uses this word."));
+  }
+
+  /* ------------------------------------------------------------------- the chat */
+  const mulberry = seed => () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+
+  async function useModel(id) {
+    $("#model-id").textContent = "loading the weights…";
+    if (!models.has(id)) models.set(id, await TinyGPT.load(id.replace(":", "_")));
+    model = models.get(id);
+    const v = model.verification;
+    $("#model-id").replaceChildren(
+      `${model.config.parameters.toLocaleString()} parameters · ${model.vocabulary.length} words · ` +
+      `${model.config.completed_steps} training steps · runs in your browser · `,
+      el("span", {class: v.ok ? "ok" : "bad"},
+        v.ok ? `matches PyTorch (max logit gap ${v.maxLogitDifference.toExponential(1)})`
+             : `MISMATCH vs PyTorch (${v.maxLogitDifference})`));
+    if (conversation.length) predict();
+  }
+
+  const currentText = () => conversation.map(t => t.text).join(" ");
+
+  function predict(commit = false, nudge = 0) {
+    if (!model) return;
+    const text = currentText();
+    if (!text.trim()) { overlay = null; $("#predict-panel").replaceChildren(); return; }
+    const {tokens, ids, unknown} = model.encode(text);
+    const full = [model.stoi.get("<BOS>"), ...ids].slice(-model.config.block_size);
+    const temperature = +$("#chat-temp").value / 100;
+    const out = model.forward(full);
+    const probabilities = model.softmax(out.logits, temperature);
+    const candidates = model.candidates(probabilities, 8);
+
+    // What did the final token actually read? Mean attention of the last row, last block.
+    const lastBlock = out.attention[out.attention.length - 1];
+    const T = out.tokens, contextTokens = full.map(id => model.vocabulary[id]);
+    const attention = [];
+    for (let j = 0; j < T; j++) {
+      let sum = 0;
+      for (const head of lastBlock) sum += head[T - 1][j] || 0;
+      attention.push({word: contextTokens[j], weight: sum / lastBlock.length, position: j});
+    }
+
+    let chosen = null;
+    if (commit) {
+      const seed = turnSeed++;
+      const draw = model.sample(probabilities, mulberry(seed));
+      let id = draw.id;
+      if (model.vocabulary[id] === "<BOS>") id = candidates[0].id;
+      chosen = model.vocabulary[id];
+      lastDraw = {seed, roll: draw.roll, chosen, probability: probabilities[id],
+                  rank: 1 + Array.from(probabilities).filter(p => p > probabilities[id]).length};
+      if (chosen === "<EOS>") {
+        conversation.push({role: "note", text: "", note: "the model ended the sentence (<EOS>)"});
+      } else {
+        const last = conversation[conversation.length - 1];
+        if (last && last.role === "model") last.text += " " + chosen;
+        else conversation.push({role: "model", text: chosen, words: 1});
+      }
+      renderLog(chosen);
+      return predict(false);
+    }
+    overlay = {
+      roles: new Map(), probability: new Map(), candidates, chosen: candidates[0].token,
+      attention: attention.filter(a => !SKIP.has(a.word)),
+      lastNode: byWord.get(contextTokens[T - 1]) || null};
+    for (const a of overlay.attention) overlay.roles.set(a.word, "context");
+    for (const c of candidates) {
+      overlay.roles.set(c.token, c.token === overlay.chosen ? "chosen" : "candidate");
+      overlay.probability.set(c.token, c.probability);
+    }
+    renderPrediction({tokens, unknown, candidates, attention, temperature, contextTokens, T});
+  }
+
+  function renderPrediction({tokens, unknown, candidates, attention, temperature, contextTokens, T}) {
+    const top = [...attention].filter(a => !SKIP.has(a.word)).sort((a, b) => b.weight - a.weight).slice(0, 5);
+    $("#predict-panel").replaceChildren(
+      el("h3", {style:"font-family:inherit;font-size:15px"}, "How the next word is chosen"),
+      el("p", {class:"faint"}, `context: ${T} of ${model.config.block_size} tokens` +
+        (unknown.length ? ` · unknown: ${unknown.join(", ")}` : "")),
+      el("div", {style:"margin:6px 0"}, contextTokens.slice(-12).map(t => el("span",
+        {class: t === "<UNK>" ? "chip unk" : "chip"}, t))),
+      el("p", {class:"muted", style:"margin:10px 0 4px"},
+        `Every word it knows gets a score; softmax at temperature ${fmt(temperature,2)} turns the ` +
+        `scores into probabilities. The top ${candidates.length}:`),
+      ...candidates.map(c => el("div", {class: c.token === candidates[0].token ? "cand picked" : "cand",
+          style:"cursor:pointer", onclick: () => showWord(c.token)},
+        el("div", {class:"w"}, c.token),
+        el("div", {class:"track"}, el("div", {class:"fill",
+          style:`width:${Math.max(1.5, 100 * c.probability / candidates[0].probability)}%`})),
+        el("div", {class:"p"}, pct(c.probability)))),
+      el("p", {class:"muted", style:"margin:12px 0 4px"},
+        "The last token read these words most (attention, block 2, averaged over its 4 heads):"),
+      ...top.map(a => el("div", {class:"cand"},
+        el("div", {class:"w"}, a.word),
+        el("div", {class:"track"}, el("div", {class:"fill",
+          style:`width:${Math.max(1.5, 100 * a.weight / (top[0].weight || 1))}%;background:${css("--accent")}`})),
+        el("div", {class:"p"}, pct(a.weight)))),
+      lastDraw ? el("p", {class:"note", style:"margin-bottom:0"},
+        `Last word: the page drew ${fmt(lastDraw.roll, 3)} from a seeded random number ` +
+        `generator and walked down the probabilities until it passed that mark, which landed on ` +
+        `"${lastDraw.chosen}" (rank ${lastDraw.rank}, ${pct(lastDraw.probability)}). Lower the ` +
+        `temperature and the top word takes almost all the probability, so the same draw lands ` +
+        `there nearly every time; raise it and the draw can reach much further down the list.`)
+        : el("p", {class:"faint", style:"margin-bottom:0"},
+          "Press “Predict one word” and the model samples from this distribution."));
+  }
+
+  function renderLog(justAdded) {
+    const log = $("#chat-log");
+    log.replaceChildren(...conversation.map(turn => {
+      if (turn.role === "note") return el("div", {class:"faint"}, turn.note);
+      if (turn.role === "you") return el("div", {class:"turn"},
+        el("div", {class:"faint"}, "you"), el("div", {class:"said"}, turn.text));
+      const words = turn.text.split(" ");
+      return el("div", {class:"turn"}, el("div", {class:"faint"}, "the model continues"),
+        el("div", {class:"grown"}, ...words.map((w, i) =>
+          i === words.length - 1 && w === justAdded ? el("b", {}, w + " ") : w + " ")));
+    }));
+    log.scrollTop = log.scrollHeight;
+  }
+
+  $("#chat-step").addEventListener("click", () => send(1));
+  $("#chat-run").addEventListener("click", () => send(8));
+  $("#chat-clear").addEventListener("click", () => {
+    conversation = []; overlay = null; turnSeed = 2026; lastDraw = null;
+    $("#chat-log").replaceChildren(); $("#predict-panel").replaceChildren();
+  });
+  $("#chat-temp").addEventListener("input", () => {
+    $("#temp-out").textContent = fmt(+$("#chat-temp").value / 100, 2);
+    predict();
+  });
+  $("#chat-input").addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); send(1); }
+  });
+
+  function send(steps) {
+    const box = $("#chat-input"), text = box.value.trim();
+    if (text) {
+      conversation.push({role: "you", text});
+      box.value = "";
+      renderLog();
+    }
+    if (!conversation.length) return;
+    for (let i = 0; i < steps; i++) predict(true);
+    predict(false);
+  }
+
+  /* ----------------------------------------------------------------- interaction */
+  canvas.addEventListener("pointermove", event => {
+    const rect = canvas.getBoundingClientRect();
+    const x = (event.clientX - rect.left) * canvas.width / rect.width;
+    const y = (event.clientY - rect.top) * canvas.height / rect.height;
+    let best = null, bestDistance = 18 * 18;
+    for (const n of nodes) {
+      const d = (n.x - x) ** 2 + (n.y - y) ** 2;
+      if (d < bestDistance) { bestDistance = d; best = n; }
+    }
+    hover = best ? best.word : null;
+    canvas.style.cursor = best ? "pointer" : "default";
+  });
+  canvas.addEventListener("click", () => { if (hover) showWord(hover); });
+  $("#graph-find").addEventListener("input", event => {
+    const word = event.target.value.trim().toLowerCase();
+    if (word) showWord(word);
+  });
+  for (const id of ["#graph-k", "#graph-t"]) $(id).addEventListener("input", () => rebuild(true));
+  $("#graph-colour").addEventListener("change", () => { renderLegend(); draw(); });
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = Math.round(rect.width); canvas.height = Math.round(rect.height);
+  }
+  resize(); addEventListener("resize", () => { resize(); heat = Math.max(heat, .4); });
+  rebuild(false);
+  showWord(state.vocabulary.includes("surgeon") ? "surgeon" : state.vocabulary[5]);
+  tick();
+  await useModel(state.id);
+}
+
+/* ══════════════════════════════════════════════════════════════ layers */
+async function bootLayers() {
+  const data = await load("layers");
+  const stateIds = ["exp2-expanded:trained", "exp2-expanded:untrained",
+                    "exp1-starter:trained", "exp1-starter:untrained"];
+  const stateLabels = {"exp2-expanded:trained":"Expanded · trained",
+    "exp2-expanded:untrained":"Expanded · untrained", "exp1-starter:trained":"Starter · trained",
+    "exp1-starter:untrained":"Starter · untrained"};
+  let prompt = 0, stateId = stateIds[0];
+
+  const select = $("#layer-prompt");
+  data.prompts.forEach((p, i) => select.append(el("option", {value:i}, `${p.prompt}  —  ${p.why}`)));
+  select.addEventListener("change", () => { prompt = +select.value; render(); });
+  const segment = $("#layer-states");
+  stateIds.forEach((id, i) => segment.append(el("button", {"aria-pressed": String(i === 0),
+    onclick: () => { [...segment.children].forEach((b, j) => b.setAttribute("aria-pressed", String(j === i)));
+                     stateId = id; render(); }}, stateLabels[id])));
+
+  function heatmap(matrix, tokens) {
+    const size = Math.min(26, Math.max(13, Math.floor(230 / tokens.length)));
+    const pad0 = 62;
+    const side = pad0 + size * tokens.length + 4;
+    const pad = pad0, box = svgEl("svg", {width:"100%", viewBox:`0 0 ${side} ${side}`});
+    matrix.forEach((row, i) => row.forEach((value, j) => {
+      if (j > i) return;                                    // causal mask: nothing looks ahead
+      box.append(svgEl("rect", {x: pad + j*size, y: pad + i*size, width: size-1, height: size-1,
+        rx:2, fill: css("--accent"), "fill-opacity": (0.06 + 0.94 * value).toFixed(3)}));
+    }));
+    tokens.forEach((t, i) => {
+      box.append(svgEl("text", {x: pad - 5, y: pad + i*size + size*0.72, "text-anchor":"end",
+        "font-size":"9.5", fill: css("--ink-dim"), "font-family":"monospace"}, t));
+      box.append(svgEl("text", {x: pad + i*size + size*0.55, y: pad - 6, "font-size":"9.5",
+        fill: css("--ink-faint"), "font-family":"monospace",
+        transform:`rotate(-60 ${pad + i*size + size*0.55} ${pad - 6})`}, t));
+    });
+    return box;
+  }
+  function render() {
+    const entry = data.prompts[prompt], trace = entry.states[stateId];
+    const limit = Math.max(...trace.embeddings.flat().map(Math.abs)) || 1;
+    const body = $("#layers-body");
+    body.replaceChildren(
+      el("div", {class:"panel"},
+        el("p", {class:"muted", style:"margin:0 0 8px"},
+          "Step 1 — the prompt becomes tokens, and each token becomes a row number. The model has " +
+          "no idea about spelling: an unknown word arrives as <UNK> and carries no information."),
+        el("div", {}, trace.tokens.map((t, i) => el("span",
+          {class: t === "<UNK>" ? "chip unk" : "chip"}, `${t} · ${trace.ids[i]}`))),
+        trace.unknown.length ? el("p", {class:"faint", style:`color:${css("--warn")}`},
+          `Unknown words in this prompt: ${trace.unknown.join(", ")} — the model literally cannot read them.`) : null),
+
+      el("div", {class:"panel", style:"margin-top:14px"},
+        el("p", {class:"muted", style:"margin:0 0 8px"},
+          "Step 2 — each row number is looked up in the embedding table: 64 learned numbers per token."),
+        el("div", {}, trace.tokens.map((t, i) => el("div", {style:"margin-bottom:6px"},
+          el("div", {class:"faint mono"}, t),
+          el("div", {class:"vec", style:"height:14px"}, trace.embeddings[i].map(v => el("i", {style:
+            `background:${v >= 0 ? css("--accent") : css("--untaught")};opacity:${.12 + .88 * Math.abs(v)/limit}`}))))))),
+
+      ...trace.attention.map((block, b) => el("div", {class:"panel", style:"margin-top:14px"},
+        el("p", {class:"muted", style:"margin:0 0 10px"},
+          `Step ${3+b} — block ${b+1} of ${data.architecture.blocks}: ${data.architecture.heads} attention heads. ` +
+          `Row = the token doing the reading, column = the token being read. The upper triangle is empty ` +
+          `because a token may never look at a later one — that is what makes this a next-word predictor.`),
+        el("div", {class:"heads"}, block.map((head, h) =>
+          el("div", {class:"head"}, el("h4", {}, `head ${h+1}`), heatmap(head, trace.tokens)))))),
+
+      el("div", {class:"panel", style:"margin-top:14px"},
+        el("p", {class:"muted", style:"margin:0 0 10px"},
+          `Step ${3+trace.attention.length} — the last position's 64 numbers become one score per vocabulary ` +
+          `word, and softmax turns the scores into probabilities. This is the whole output of the model: ` +
+          `a probability for every word it knows.`),
+        el("table", {}, el("thead", {}, el("tr", {}, el("th", {}, "next word"),
+            el("th", {class:"num"}, "probability"), el("th", {}, ""))),
+          el("tbody", {}, trace.top.map(row => el("tr", {},
+            el("td", {class:"mono"}, row.token),
+            el("td", {class:"num"}, fmt(row.probability, 4)),
+            el("td", {}, el("div", {class:"bar", style:`width:${Math.max(2, 210*row.probability)}px`}))))))),
+      el("p", {class:"note"}, entry.why + ". Switch the weights above to see the same prompt " +
+        "before training: the attention becomes a flat smear and the probabilities nearly uniform, " +
+        "because nothing has been learned yet."));
+  }
+  render();
+}
+
+/* ════════════════════════════════════════════════════════════ progress */
+async function bootProgress() {
+  const data = await load("progress");
+  const body = $("#progress-body");
+  body.className = "";
+  const starter = data.runs["exp1-starter"], expanded = data.runs["exp2-expanded"];
+
+  const lossChart = runs => {
+    const w = 640, h = 240, pad = 44;
+    const all = runs.flatMap(r => r.history.flatMap(p => [p.training_loss, p.validation_loss]));
+    const maxY = Math.max(...all) * 1.08, maxX = Math.max(...runs.flatMap(r => r.history.map(p => p.step)));
+    const X = s => pad + (w - pad - 12) * s / maxX, Y = v => h - 28 - (h - 52) * v / maxY;
+    const svg = svgEl("svg", {viewBox:`0 0 ${w} ${h}`, width:"100%"});
+    svg.append(svgEl("path", {d:`M${pad} 16V${h-28}H${w-12}`, fill:"none", stroke:css("--line")}));
+    [0, maxY/2, maxY].forEach(v => svg.append(svgEl("text",
+      {x:pad-6, y:Y(v)+4, "text-anchor":"end", "font-size":"10", fill:css("--ink-faint")}, fmt(v,1))));
+    const colours = [css("--accent"), css("--taught"), css("--untaught"), css("--starter")];
+    runs.forEach((run, i) => ["training_loss", "validation_loss"].forEach((key, k) => {
+      svg.append(svgEl("polyline", {fill:"none", stroke:colours[(2*i+k) % 4],
+        "stroke-width": k ? 1.6 : 2.6, "stroke-dasharray": k ? "4 3" : "",
+        points: run.history.map(p => `${X(p.step)},${Y(p[key])}`).join(" ")}));
+      run.history.forEach(p => svg.append(svgEl("circle",
+        {cx:X(p.step), cy:Y(p[key]), r:2.6, fill:colours[(2*i+k) % 4]})));
+    }));
+    runs.forEach((run, i) => [0,1].forEach(k => svg.append(svgEl("text",
+      {x: pad + 6 + 150*(2*i+k), y: h-8, "font-size":"10.5", fill:colours[(2*i+k)%4]},
+      `${run.name} ${k ? "validation" : "training"}`))));
+    return svg;
+  };
+  const categoryBars = () => {
+    const categories = [...data.starter_groups, ...data.taught, ...data.untaught];
+    const rows = categories.map(category => {
+      const cell = (run, stage) => {
+        const summary = data.runs[run].eval[stage].by_category[category];
+        return summary ? summary : {correct:0, total:0, scorable:0};
+      };
+      return {category, s0: cell("exp1-starter","untrained"), s1: cell("exp1-starter","final"),
+              e0: cell("exp2-expanded","untrained"), e1: cell("exp2-expanded","final")};
+    });
+    const bar = v => el("td", {class:"num", title:`${v.scorable} of ${v.total} scorable`},
+      el("span", {class: v.correct ? "ok" : (v.scorable ? "" : "faint")},
+        `${v.correct}/${v.total}`), v.scorable === 0 ? el("span", {class:"faint"}, " ∅") : null);
+    return el("table", {},
+      el("thead", {}, el("tr", {}, el("th", {}, "category"), el("th", {}, "kind"),
+        el("th", {class:"num"}, "starter untr."), el("th", {class:"num"}, "starter trained"),
+        el("th", {class:"num"}, "expanded untr."), el("th", {class:"num"}, "expanded trained"))),
+      el("tbody", {}, rows.map(r => el("tr", {},
+        el("td", {class:"mono"}, r.category),
+        el("td", {}, el("span", {class:"pill"}, data.taught.includes(r.category) ? "taught"
+          : data.untaught.includes(r.category) ? "control" : "starter")),
+        bar(r.s0), bar(r.s1), bar(r.e0), bar(r.e1)))));
+  };
+
+  const samplesBlock = run => el("div", {},
+    el("p", {class:"muted", style:"margin:0 0 6px"}, run.name),
+    ...Object.entries(run.samples).map(([step, lines]) => el("div", {style:"margin-bottom:8px"},
+      el("div", {class:"faint"}, `step ${step}`),
+      ...lines.map(line => el("div", {class:"mono", style:"opacity:.9"}, line || "[empty]")))));
+
+  body.replaceChildren(
+    el("div", {class:"panel"},
+      el("p", {class:"muted", style:"margin:0 0 6px"},
+        `Loss is how surprised the model is by the next word, averaged over fixed panels of ` +
+        `${starter.config.evaluation_panel_size.train} training and ` +
+        `${starter.config.evaluation_panel_size.validation} held-out passages. The two runs are not ` +
+        `comparable to each other — different corpus, different vocabulary — only to themselves.`),
+      lossChart([starter, expanded])),
+
+    el("div", {class:"panel", style:"margin-top:14px"},
+      el("p", {class:"muted", style:"margin:0 0 8px"},
+        "Every eval category, in all four required result sets. ∅ marks a category the model cannot " +
+        "even read: some word in the prompt or in the four choices is outside its vocabulary, so the " +
+        "case is unscorable and counts as zero. The four control categories stay ∅ on purpose."),
+      categoryBars()),
+
+    el("div", {class:"panel", style:"margin-top:14px"},
+      el("p", {class:"muted", style:"margin:0 0 8px"},
+        "What the model writes on its own, at the start, halfway and at the end of training — same " +
+        "sampling seed and temperature each time."),
+      el("div", {class:"grid2"}, samplesBlock(starter), samplesBlock(expanded))),
+
+    el("div", {class:"panel", style:"margin-top:14px", id:"milestones"},
+      el("p", {class:"muted", style:"margin:0 0 8px"},
+        "The embedding table every 250 steps of the expanded run, projected onto its own two main " +
+        "directions. These frames come from a replay whose final weights are bit-identical to the " +
+        "notebook run."),
+      el("p", {class:"loading"}, "loading 1.9 MB of embedding snapshots…")));
+
+  const milestones = await load("milestones");
+  const holder = $("#milestones");
+  const canvas = el("canvas", {style:"height:420px"});
+  const slider = el("input", {type:"range", min:"0", max:String(milestones.frames.length-1), value:"0",
+                              style:"width:100%"});
+  const caption = el("p", {class:"faint"});
+  const play = el("button", {class:"play"}, "▶ play");
+  holder.lastChild.replaceWith(el("div", {},
+    el("div", {style:"display:flex;gap:10px;align-items:center;margin-bottom:6px"}, play, slider),
+    caption, canvas));
+
+  // Two main directions of the FINAL frame, so every frame is drawn in the same basis.
+  const final = milestones.frames.at(-1).embeddings;
+  const dim = final[0].length, mean = new Array(dim).fill(0);
+  for (const row of final) for (let d = 0; d < dim; d++) mean[d] += row[d] / final.length;
+  const centred = final.map(row => row.map((v, d) => v - mean[d]));
+  const power = exclude => {
+    let v = new Array(dim).fill(0).map((_, i) => Math.sin(i * 1.7 + 0.3));
+    for (let iteration = 0; iteration < 60; iteration++) {
+      const next = new Array(dim).fill(0);
+      for (const row of centred) {
+        let dot = 0; for (let d = 0; d < dim; d++) dot += row[d] * v[d];
+        for (let d = 0; d < dim; d++) next[d] += row[d] * dot;
+      }
+      if (exclude) { let dot = 0; for (let d = 0; d < dim; d++) dot += next[d] * exclude[d];
+                     for (let d = 0; d < dim; d++) next[d] -= dot * exclude[d]; }
+      let norm = Math.hypot(...next) || 1;
+      v = next.map(x => x / norm);
+    }
+    return v;
+  };
+  const axis1 = power(null), axis2 = power(axis1);
+  const project = row => {
+    let a = 0, b = 0;
+    for (let d = 0; d < dim; d++) { const c = row[d] - mean[d]; a += c * axis1[d]; b += c * axis2[d]; }
+    return [a, b];
+  };
+  const frames = milestones.frames.map(f => ({
+    step: f.step, points: f.embeddings.map(project),
+    norm: f.embeddings.reduce((sum, row) => sum + Math.hypot(...row), 0) / f.embeddings.length}));
+  // Same scale in every frame, so the vectors visibly grow apart instead of being re-normalised.
+  const spread = Math.max(...frames.flatMap(f => f.points.flatMap(p => p.map(Math.abs)))) * 0.72 || 1;
+  const taughtWords = new Set();
+  for (const row of data.runs["exp2-expanded"].cases.final)
+    if (data.taught.includes(row.category))
+      for (const word of row.prompt.toLowerCase().split(/[^a-z]+/)) if (word) taughtWords.add(word);
+
+  const context = canvas.getContext("2d");
+  function drawFrame(index) {
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = Math.round(rect.width); canvas.height = Math.round(rect.height);
+    const {step, points} = frames[index];
+    const scale = Math.min(canvas.width, canvas.height) / (2.4 * spread);
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    points.forEach(([x, y], i) => {
+      const word = milestones.vocabulary[i];
+      const px = canvas.width/2 + x*scale, py = canvas.height/2 - y*scale;
+      context.beginPath(); context.arc(px, py, taughtWords.has(word) ? 3.4 : 2, 0, 6.2832);
+      context.fillStyle = taughtWords.has(word) ? css("--taught") : css("--ink-faint");
+      context.globalAlpha = taughtWords.has(word) ? .95 : .45;
+      context.fill();
+    });
+    context.globalAlpha = 1;
+    const frame = frames[index];
+    caption.textContent = `step ${step} of ${milestones.steps} · mean vector length ` +
+      `${fmt(frame.norm, 3)} · green dots are words used by the eval categories I taught` +
+      (index === 0 ? " · at step 0 every vector is a tiny random draw, so the whole vocabulary sits in one blob"
+                   : "") + ` · replay verified against weight hash ` +
+      milestones.verified_model_sha256.slice(0, 12) + "…";
+  }
+  slider.addEventListener("input", () => drawFrame(+slider.value));
+  let timer = null;
+  play.addEventListener("click", () => {
+    if (timer) { clearInterval(timer); timer = null; play.textContent = "▶ play"; return; }
+    play.textContent = "❚❚ pause";
+    timer = setInterval(() => {
+      const next = (+slider.value + 1) % frames.length;
+      slider.value = String(next); drawFrame(next);
+      if (next === frames.length - 1) { clearInterval(timer); timer = null; play.textContent = "▶ play"; }
+    }, 420);
+  });
+  drawFrame(0);
+}
+
+const BOOT = {graph: bootGraph, layers: bootLayers, progress: bootProgress};
+BOOT.graph();
+</script>
+</html>
