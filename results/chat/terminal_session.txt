@@ -1,0 +1,17 @@
+the report about the surgeon explains the
+number of parameters: 0.12M
+Tiny language model: short continuations, not a general assistant.
+Each prompt starts fresh. Context: 48 tokens. Type /quit to exit.
+You: Model: health in detail .
+You: the opposite of empty is
+Model: two .
+You: a robin is a bird . a salmon is a
+Model: fish .
+You: ava did not buy tea . she bought milk . ava bought
+Model: about the different investment and the different program was walking to the return report yesterday .
+Unknown words: ava, bought, buy, did, milk, tea
+You: the quarterly ebitda margin compressed because freight costs rose sharply
+Model: about the different item .
+Unknown words: because, compressed, costs, ebitda, freight, margin, quarterly, rose, sharply
+You: /quit
+Saved transcript: results/chat/terminal_transcript.json

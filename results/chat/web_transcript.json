@@ -1,0 +1,87 @@
+{
+  "model": "results/exp2-expanded/model.pt",
+  "model_sha256": "8b39337b5043ce195dbc3ac473eeee6b50c4a3126b9be1d0e9f4acd626f3b775",
+  "parameters": 122368,
+  "vocabulary": 300,
+  "block_size": 48,
+  "completed_steps": 3000,
+  "fresh_context_per_prompt": true,
+  "temperature": 0.8,
+  "max_tokens": 24,
+  "interface": "chat_web.py",
+  "turns": [
+    {
+      "prompt": "the opposite of noisy is",
+      "seed": 2026,
+      "interface": "web",
+      "response": "short .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "a puppy grows into a dog . a kitten grows into a",
+      "seed": 2027,
+      "interface": "web",
+      "response": "cat .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the team discussed the mortgage and the payment at the",
+      "seed": 2028,
+      "interface": "web",
+      "response": "bank .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the customer ordered the package and the delivery was late so the store offered a refund to the buyer after the report about the service explained the order in detail yesterday morning",
+      "seed": 2029,
+      "interface": "web",
+      "response": ".",
+      "unknown_prompt_words": [
+        "offered",
+        "refund",
+        "so"
+      ],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the opposite of noisy is",
+      "seed": 2030,
+      "interface": "web",
+      "response": "quiet .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "a puppy grows into a dog . a kitten grows into a",
+      "seed": 2031,
+      "interface": "web",
+      "response": "cat .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the team discussed the mortgage and the payment at the",
+      "seed": 2032,
+      "interface": "web",
+      "response": "bank .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the customer ordered the package and the delivery was late so the store offered a refund to the buyer after the report about the service explained the order in detail yesterday morning and the client asked the office about the update again",
+      "seed": 2033,
+      "interface": "web",
+      "response": "about the teacher at the store .",
+      "unknown_prompt_words": [
+        "again",
+        "offered",
+        "refund",
+        "so"
+      ],
+      "prompt_truncated": false
+    }
+  ]
+}

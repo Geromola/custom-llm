@@ -1,0 +1,62 @@
+{
+  "model": "results/exp2-expanded/model.pt",
+  "model_sha256": "8b39337b5043ce195dbc3ac473eeee6b50c4a3126b9be1d0e9f4acd626f3b775",
+  "completed_steps": 3000,
+  "fresh_context_per_prompt": true,
+  "temperature": 0.8,
+  "max_tokens": 24,
+  "turns": [
+    {
+      "prompt": "the report about the surgeon explains the",
+      "seed": 2026,
+      "response": "health in detail .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the opposite of empty is",
+      "seed": 2027,
+      "response": "two .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "a robin is a bird . a salmon is a",
+      "seed": 2028,
+      "response": "fish .",
+      "unknown_prompt_words": [],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "ava did not buy tea . she bought milk . ava bought",
+      "seed": 2029,
+      "response": "about the different investment and the different program was walking to the return report yesterday .",
+      "unknown_prompt_words": [
+        "ava",
+        "bought",
+        "buy",
+        "did",
+        "milk",
+        "tea"
+      ],
+      "prompt_truncated": false
+    },
+    {
+      "prompt": "the quarterly ebitda margin compressed because freight costs rose sharply",
+      "seed": 2030,
+      "response": "about the different item .",
+      "unknown_prompt_words": [
+        "because",
+        "compressed",
+        "costs",
+        "ebitda",
+        "freight",
+        "margin",
+        "quarterly",
+        "rose",
+        "sharply"
+      ],
+      "prompt_truncated": false
+    }
+  ]
+}
