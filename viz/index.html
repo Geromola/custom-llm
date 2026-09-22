@@ -142,6 +142,7 @@
         <p class="faint" id="model-id">loading the weights…</p>
         <div id="chat-log"></div>
         <textarea id="chat-input" rows="2" placeholder="the report about the surgeon explains the"></textarea>
+        <div class="row" id="chat-examples"></div>
         <div class="row">
           <button class="play" id="chat-step">Predict one word</button>
           <button class="play" id="chat-run">Continue ×8</button>
@@ -559,8 +560,12 @@ async function bootGraph() {
     const top = [...attention].filter(a => !SKIP.has(a.word)).sort((a, b) => b.weight - a.weight).slice(0, 5);
     $("#predict-panel").replaceChildren(
       el("h3", {style:"font-family:inherit;font-size:15px"}, "How the next word is chosen"),
-      el("p", {class:"faint"}, `context: ${T} of ${model.config.block_size} tokens` +
-        (unknown.length ? ` · unknown: ${unknown.join(", ")}` : "")),
+      el("p", {class:"faint"}, `context: ${T} of ${model.config.block_size} tokens`),
+      unknown.length ? el("p", {class:"note", style:`border-color:${css("--warn")};color:${css("--warn")}`},
+        `${unknown.length} of ${tokens.length} words are outside this model's ${model.vocabulary.length}-word ` +
+        `vocabulary — ${unknown.join(", ")} — and every one of them arrives as the same <UNK> token. ` +
+        `The prompt carries almost no information, so what you get back is the corpus's most generic ` +
+        `continuation rather than an answer.`) : null,
       el("div", {style:"margin:6px 0"}, contextTokens.slice(-12).map(t => el("span",
         {class: t === "<UNK>" ? "chip unk" : "chip"}, t))),
       el("p", {class:"muted", style:"margin:10px 0 4px"},
@@ -602,6 +607,16 @@ async function bootGraph() {
     }));
     log.scrollTop = log.scrollHeight;
   }
+
+  const EXAMPLES = ["the report about the surgeon explains the",
+                    "the team discussed the mango and the juice at the",
+                    "the opposite of hot is",
+                    "a robin is a bird . a salmon is a",
+                    "yesterday she"];
+  $("#chat-examples").replaceChildren(
+    el("span", {class:"faint", style:"width:100%;margin-bottom:2px"}, "try a prompt it can read:"),
+    ...EXAMPLES.map(text => el("span", {class:"chip", style:"cursor:pointer",
+      onclick: () => { $("#chat-input").value = text; send(1); }}, text.split(" ").slice(0, 4).join(" ") + "…")));
 
   $("#chat-step").addEventListener("click", () => send(1));
   $("#chat-run").addEventListener("click", () => send(8));
