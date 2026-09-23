@@ -1,7 +1,12 @@
 # What I expect before training
 
-Written and committed **before** the first real training run. Nothing here was edited
-afterwards; the README compares these numbers with what actually happened.
+Written and committed **before** the first real training run (commit `0fdc876`), so the
+record of what was expected precedes every result. The README compares these numbers with
+what actually happened.
+
+No prediction, number or claim in this file has been changed since. It was edited once
+afterwards, in commit `54a2b78`, to correct how the corpus's authorship was described —
+`git diff 0fdc876 -- PREDICTION.md` shows exactly what changed.
 
 ## My three choices
 
