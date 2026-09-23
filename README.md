@@ -130,6 +130,65 @@ Two subtleties I had to handle, both visible in the code:
    of my analogy passages use this, and the leakage check still runs on the joined passage
    exactly as the model sees it.
 
+### The separation audit
+
+Leakage is the one thing in this assignment that can cost marks beyond its own category, so
+[`verify_separation.py`](verify_separation.py) checks it from six directions and writes
+[`separation_audit.json`](separation_audit.json). Run it yourself with
+`python verify_separation.py`.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Eval prompts found in any training input (12 audited, across all 7 runs) | **0** |
+| 2 | `prompt + answer` strings found in training text | **0** |
+| 3 | Training lines holding 3+ choices from one case (a copied answer list) | **0** |
+| 4 | Eval files, eval results or chat transcripts inside a corpus folder | **0** |
+| 5 | Vocabulary built only from training passages | **yes** |
+| 6 | Trained and untrained weights differ; one single suite hash across every run | **yes** |
+
+The suite hash `1d7c503f34d88260d0ac897b…` is identical in all 7 runs and in both stages of each, so
+the same 48 cases, the same four choices and the same answer key scored everything. The scorer
+[`run_evals.py`](run_evals.py) only ever runs inference, and asserts the model's hash is
+unchanged afterwards — if scoring had nudged a single weight it would have raised.
+
+### What *does* overlap, and why that is allowed
+
+The assignment is explicit that ordinary words and underlying subject knowledge may overlap;
+only the test items themselves must stay out. So the honest question is not "is there any
+overlap" but "how close does the training text get". For 20 of the 48 cases, the last
+three words of the prompt are followed by the correct answer somewhere in training:
+
+| Case | Category | Phrase in training text | Times |
+|---|---|---|---:|
+| `lang_46` | categories_and_analogies | `…salmon is a fish` | 31 |
+| `lang_48` | categories_and_analogies | `…apple is a fruit` | 27 |
+| `lang_09` | domain_place | `…service at the store` | 20 |
+| `lang_10` | domain_place | `…quality at the market` | 20 |
+| `lang_11` | domain_place | `…payment at the bank` | 20 |
+| `lang_12` | domain_place | `…juice at the kitchen` | 20 |
+| `lang_13` | domain_place | `…journey at the station` | 20 |
+| `lang_14` | domain_place | `…security at the office` | 20 |
+| `lang_15` | domain_place | `…patient at the hospital` | 20 |
+| `lang_16` | domain_place | `…lesson at the school` | 20 |
+| `lang_47` | categories_and_analogies | `…grows into a cat` | 11 |
+| `lang_45` | everyday_knowledge | `…turn on a light` | 7 |
+
+Two worked examples of what is behind those counts:
+
+- **`lang_09`** — the test prefix is `the team discussed the customer and the service at the`
+  → **store**. That exact sentence **is not in the training text**; the notebook reserved it,
+  along with 159 other passages, before the split and before the vocabulary was built. What
+  remains is its siblings with a *different* noun: `the team discussed the client and the
+  service at the store .` This is the supplied corpus behaving as the assignment describes —
+  it teaches the association and withholds the exact test sentence.
+- **`lang_46`** — the test prefix is `a robin is a bird . a salmon is a` → **fish**, and it is
+  absent too. My analogy file does contain `a salmon is a fish .`, paired with other first
+  clauses: `a banana is a fruit .a salmon is a fish .` The fact is taught; the test item, with
+  its `a robin is a bird` opening, never appears.
+
+That is the line the assignment draws, and it is also why the scores should be read as a
+*development benchmark*: I could see these cases while choosing what to teach.
+
 Both runs' separation records are saved:
 [`eval_separation.json`](results/exp2-expanded/eval_separation.json) — the notebook reserved
 **160 classroom passages** covering

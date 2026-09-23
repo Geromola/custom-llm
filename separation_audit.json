@@ -1,0 +1,87 @@
+{
+  "inputs_audited": 12,
+  "exact_prompts_in_training": 0,
+  "prompt_plus_answer_in_training": 0,
+  "lines_with_three_or_more_choices": 0,
+  "eval_or_result_files_in_corpus": 0,
+  "vocabulary_from_training_only": true,
+  "single_suite_hash_across_runs": "1d7c503f34d88260d0ac897bc36b8ba621cccc1950aef47e7121e69b2c1c9e1d",
+  "runs_audited": 7,
+  "weights_differ_per_stage": true,
+  "cases_with_three_word_context_overlap": 20,
+  "overlap_examples": [
+    {
+      "case": "lang_46",
+      "category": "categories_and_analogies",
+      "phrase": "salmon is a fish",
+      "occurrences": 31
+    },
+    {
+      "case": "lang_48",
+      "category": "categories_and_analogies",
+      "phrase": "apple is a fruit",
+      "occurrences": 27
+    },
+    {
+      "case": "lang_09",
+      "category": "domain_place",
+      "phrase": "service at the store",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_10",
+      "category": "domain_place",
+      "phrase": "quality at the market",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_11",
+      "category": "domain_place",
+      "phrase": "payment at the bank",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_12",
+      "category": "domain_place",
+      "phrase": "juice at the kitchen",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_13",
+      "category": "domain_place",
+      "phrase": "journey at the station",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_14",
+      "category": "domain_place",
+      "phrase": "security at the office",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_15",
+      "category": "domain_place",
+      "phrase": "patient at the hospital",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_16",
+      "category": "domain_place",
+      "phrase": "lesson at the school",
+      "occurrences": 20
+    },
+    {
+      "case": "lang_47",
+      "category": "categories_and_analogies",
+      "phrase": "grows into a cat",
+      "occurrences": 11
+    },
+    {
+      "case": "lang_45",
+      "category": "everyday_knowledge",
+      "phrase": "turn on a light",
+      "occurrences": 7
+    }
+  ],
+  "failures": []
+}

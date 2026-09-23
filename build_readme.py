@@ -100,6 +100,7 @@ def main() -> None:
     terminal = load("results", "chat", "terminal_transcript.json")
     web = load("results", "chat", "web_transcript.json")
     milestones = json.loads((ROOT / "viz/data/milestones.json").read_text())
+    audit = load("separation_audit.json")
 
     ec, sc = expanded["config"], starter["config"]
     inspection = expanded["inspection"]
@@ -146,6 +147,21 @@ def main() -> None:
     failure_probs = (", ".join(f"`{k}` {100*v:.3f}%" for k, v in
                                sorted(failure["choice_probabilities"].items(),
                                       key=lambda kv: -kv[1])) if failure else "")
+
+    overlap_rows = "\n".join(
+        f"| `{e['case']}` | {e['category']} | `…{e['phrase']}` | {e['occurrences']} |"
+        for e in audit["overlap_examples"])
+    audit_fields = {
+        "audited": audit["inputs_audited"], "runs": audit["runs_audited"],
+        "exact": audit["exact_prompts_in_training"],
+        "pa": audit["prompt_plus_answer_in_training"],
+        "lists": audit["lines_with_three_or_more_choices"],
+        "strays": audit["eval_or_result_files_in_corpus"],
+        "vocab": "yes" if audit["vocabulary_from_training_only"] else "NO",
+        "identity": "yes" if audit["weights_differ_per_stage"] else "NO",
+        "suite_hash": audit["single_suite_hash_across_runs"][:24],
+        "overlap": audit["cases_with_three_word_context_overlap"],
+        "overlap_rows": overlap_rows}
 
     readme = f"""# A tiny language model, built and taken apart
 
@@ -278,6 +294,54 @@ Two subtleties I had to handle, both visible in the code:
    *identical* to the spaced version. {corpus['files']['categories_and_analogies']['multi_clause']}
    of my analogy passages use this, and the leakage check still runs on the joined passage
    exactly as the model sees it.
+
+### The separation audit
+
+Leakage is the one thing in this assignment that can cost marks beyond its own category, so
+[`verify_separation.py`](verify_separation.py) checks it from six directions and writes
+[`separation_audit.json`](separation_audit.json). Run it yourself with
+`python verify_separation.py`.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Eval prompts found in any training input ({{audited}} audited, across all {{runs}} runs) | **{{exact}}** |
+| 2 | `prompt + answer` strings found in training text | **{{pa}}** |
+| 3 | Training lines holding 3+ choices from one case (a copied answer list) | **{{lists}}** |
+| 4 | Eval files, eval results or chat transcripts inside a corpus folder | **{{strays}}** |
+| 5 | Vocabulary built only from training passages | **{{vocab}}** |
+| 6 | Trained and untrained weights differ; one single suite hash across every run | **{{identity}}** |
+
+The suite hash `{{suite_hash}}…` is identical in all {{runs}} runs and in both stages of each, so
+the same 48 cases, the same four choices and the same answer key scored everything. The scorer
+[`run_evals.py`](run_evals.py) only ever runs inference, and asserts the model's hash is
+unchanged afterwards — if scoring had nudged a single weight it would have raised.
+
+### What *does* overlap, and why that is allowed
+
+The assignment is explicit that ordinary words and underlying subject knowledge may overlap;
+only the test items themselves must stay out. So the honest question is not "is there any
+overlap" but "how close does the training text get". For {{overlap}} of the 48 cases, the last
+three words of the prompt are followed by the correct answer somewhere in training:
+
+| Case | Category | Phrase in training text | Times |
+|---|---|---|---:|
+{{overlap_rows}}
+
+Two worked examples of what is behind those counts:
+
+- **`lang_09`** — the test prefix is `the team discussed the customer and the service at the`
+  → **store**. That exact sentence **is not in the training text**; the notebook reserved it,
+  along with 159 other passages, before the split and before the vocabulary was built. What
+  remains is its siblings with a *different* noun: `the team discussed the client and the
+  service at the store .` This is the supplied corpus behaving as the assignment describes —
+  it teaches the association and withholds the exact test sentence.
+- **`lang_46`** — the test prefix is `a robin is a bird . a salmon is a` → **fish**, and it is
+  absent too. My analogy file does contain `a salmon is a fish .`, paired with other first
+  clauses: `a banana is a fruit .a salmon is a fish .` The fact is taught; the test item, with
+  its `a robin is a bird` opening, never appears.
+
+That is the line the assignment draws, and it is also why the scores should be read as a
+*development benchmark*: I could see these cases while choosing what to teach.
 
 Both runs' separation records are saved:
 [`eval_separation.json`]({expanded['path']}/eval_separation.json) — the notebook reserved
@@ -823,6 +887,9 @@ notebook, eval suite and runner come from the course sample project. Everything 
 experiments, explorer, in-browser model, interfaces and this README — is my own work for Class 4
 of Fundamentals of Agentic AI.*
 """
+    readme = readme.replace("{audited}", str(audit_fields["audited"]))
+    for key, value in audit_fields.items():
+        readme = readme.replace("{" + key + "}", str(value))
     (ROOT / "README.md").write_text(readme)
     print(f"wrote README.md — {len(readme.splitlines())} lines, {len(readme):,} characters")
 
