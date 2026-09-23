@@ -23,6 +23,7 @@ different random seeds.
 
 ## Contents
 
+- [In plain language](#in-plain-language)
 - [What is in this repository](#what-is-in-this-repository)
 - [The three choices](#the-three-choices)
 - [The corpus for the extension](#the-corpus-for-the-extension)
@@ -37,6 +38,74 @@ different random seeds.
 - [Reproducing everything](#reproducing-everything)
 - [Limitations and the next experiment](#limitations-and-the-next-experiment)
 - [How this was built](#how-this-was-built)
+
+---
+
+## In plain language
+
+*If you only read one section, read this one. The rest of the document is the evidence
+behind it.*
+
+**This is a language model — the same kind of thing as ChatGPT, about a million times
+smaller.** 122,368 numbers instead of hundreds of billions; half a megabyte instead of a
+data centre. The smallness is the point: at this size every part of it can be looked at, which
+is what the [explorer](https://geromola.github.io/custom-llm/viz/) is for.
+
+**It only ever does one thing: guess the next word.** Show it
+`the team discussed the mango and the juice at the ___` and it produces a probability for every
+word it knows. `kitchen` gets most of it. Everything a large model appears to do — answering,
+reasoning, writing code — is this same operation at enormous scale.
+
+**It starts knowing nothing.** Every word gets 64 random numbers attached to it, so at the
+start `surgeon` is no closer to `doctor` than to `banana`. Training shows it sentences, asks it
+to guess the next word, measures how wrong it was, and nudges all 122,368 numbers slightly
+in the direction that would have been less wrong. Three thousand times. Nobody ever tells it
+what a surgeon is — yet afterwards the five words nearest `surgeon` are `physician`, `dentist`,
+`therapist`, `doctor`, `nurse`, worked out purely from which words kept appearing in the same
+sentences. In the explorer's map that is the difference between **0 connections** before
+training and **489** after.
+
+**Then it sits an exam it has never seen** — 48 fill-in-the-blank questions, four options each.
+The absolute rule is that no exam question may appear in the study material, which is
+[audited six ways](#the-separation-audit).
+
+**The experiment asks one question: does adding study material actually teach it anything?**
+
+- With the standard starter textbook it scored **20/48** — and 24
+  of those questions it could not even read, because words like *opposite* and *ice* were not in
+  its 133-word vocabulary. Unknown words are invisible to it, not approximated.
+- Then study material was added for **half** of the topics it was failing — opposites, grammar,
+  everyday facts, analogies — and deliberately **none** for the other half: negation, references,
+  sequence, spatial relations.
+- It scored **35/48**. On the four topics taught: **0 → 11/12**. On the four
+  deliberately skipped: **0/12, unchanged.**
+
+That last line is the actual finding. The improvement lands exactly where the teaching landed
+and nowhere else, which is far stronger evidence than a rising score, because it rules out "the
+model simply got better at everything".
+
+**Three things separate this from wishful thinking:**
+
+- **Predictions were written down first**, committed before training. Several were wrong, and
+  they are still [shown](#what-i-predicted-and-what-actually-happened) rather than quietly fixed.
+- **Every configuration was run at three random seeds.** One apparent result — the transfer
+  questions improving — turned out to happen by luck alone at one seed, so that claim was
+  **removed**. That is the difference between a finding and a coincidence.
+- **A version was trained three times longer** to test whether more training could substitute
+  for more data. It could not: 34/48, no better. You cannot train your way into
+  words the model has never seen.
+
+**One failure, explained exactly.** Asked what water freezes into, it answers *steam* instead of
+*ice* — because the study material contains the sentence `ice melts into water`, teaching it
+that *into* is followed by *water*, in direct competition with the wanted answer. That is a data
+problem, self-inflicted and [traceable](#one-case-that-fails-and-why-it-is-my-fault).
+
+**The honest ceiling.** This model does not understand anything. Choosing the right word from
+four, after being drilled on that pattern, is a very different skill from knowing what a surgeon
+does — and its unassisted writing gives the game away: asked `the opposite of empty is`, the exam
+scored it correct while its free-form reply was `two .` The tidy clusters in the map are a
+picture of which words occurred near each other in a small synthetic corpus, not a map of
+meaning.
 
 ---
 
