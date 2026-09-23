@@ -7,7 +7,7 @@ afterwards; the README compares these numbers with what actually happened.
 
 | Choice | Value | Why |
 |---|---|---|
-| Corpus | Exp 1: classroom sentences only. Exp 2: classroom + 1,421 self-authored teaching passages in `corpus/` | The corpus is the only thing that differs between the two runs, so any change in the 48 eval scores has exactly one candidate cause. Adding my own text, rather than outside documents, keeps the permissions trivial and lets me target specific eval skills instead of flooding the 509-type vocabulary with unrelated words. |
+| Corpus | Exp 1: classroom sentences only. Exp 2: classroom + 1,421 generated teaching passages in `corpus/` | The corpus is the only thing that differs between the two runs, so any change in the 48 eval scores has exactly one candidate cause. Generating the text, rather than importing outside documents, keeps the permissions trivial and lets me target specific eval skills instead of flooding the 509-type vocabulary with unrelated words. |
 | Training steps | 3,000 in both runs | The assignment's suggested budget, and the reference run's validation loss is already flat well before it. Keeping it identical across runs matters more than tuning it: if I trained Exp 2 longer I could not tell whether a better score came from the new data or the extra steps. A 10-step run first, only to check the pipeline. |
 | Learning rate | 0.001 in both runs | The notebook's default, with 100-step warmup and cosine decay to 10%. A much larger rate (say 0.05) would take steps too big for the loss surface — AdamW's updates would overshoot the minimum and the loss would oscillate or go non-finite, which the notebook explicitly guards against. A much smaller rate (say 1e-6) would move the weights so little that 3,000 steps would end near the random initialisation: the samples would stay as word salad and the training loss would barely leave ln(vocabulary size). |
 
@@ -19,8 +19,8 @@ coverage** (a case stops being unscorable) and **learned patterns** (a scorable 
 becomes correct). The expanded-untrained run has the new vocabulary but random weights,
 so it is the control for coverage alone.
 
-I teach 4 of the 8 extension categories — grammar, opposites, everyday knowledge,
-categories/analogies — and deliberately teach **nothing** for negation, reference,
+The extension corpus teaches 4 of the 8 extension categories — grammar, opposites, everyday knowledge,
+categories/analogies — and deliberately contains **nothing** for negation, reference,
 sequence and spatial relations. Those 12 cases are my control group: if their scores move,
 something other than my teaching material is responsible.
 

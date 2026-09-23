@@ -1,8 +1,8 @@
-"""Generate the self-authored teaching corpus for the extension experiment.
+"""Generate the teaching corpus for the extension experiment.
 
-Everything this script writes is my own text, written for this assignment. Nothing is
-copied from the eval suite: every generated passage is checked against all 48 eval
-prompts with the starter's own `reject_eval_leakage` before it is written to disk.
+Every passage is produced from the templates and word lists below, so nothing here comes
+from an outside document or from the eval suite: each generated passage is checked against
+all 48 eval prompts with the starter's own `reject_eval_leakage` before it reaches disk.
 
 Four of the eight extension categories are taught on purpose:
 
